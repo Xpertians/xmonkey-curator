@@ -1,6 +1,6 @@
 # tests/test_text_handler.py
 
-from xmonkey_curator.handlers.text_handler import TextFileHandler
+from src.xmonkey_curator.handlers.text_handler import TextFileHandler
 import tempfile
 
 def test_word_extraction():

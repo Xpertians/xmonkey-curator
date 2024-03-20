@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+scan_report.json
 
 # C extensions
 *.so

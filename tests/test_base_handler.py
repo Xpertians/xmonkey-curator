@@ -1,6 +1,6 @@
 # tests/test_base_handler.py
 
-from xmonkey_curator.base_handler import BaseFileHandler
+from src.xmonkey_curator.base_handler import BaseFileHandler
 import tempfile
 
 def test_file_size_eligibility():

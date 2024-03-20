@@ -32,7 +32,8 @@ def scan(path):
         if result:
             results.append(result)
     report_generator = ReportGenerator(results)
-    report_generator.print_report()  # or report_generator.save_report('scan_report.json')
+    # report_generator.print_report()
+    report_generator.save_report('scan_report.json')
 
 def process_file(file_path, results):
     """
