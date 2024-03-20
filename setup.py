@@ -6,7 +6,7 @@ setup(
     description="Automated OSS curation scanner",
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
-    url='https://github.com/Xpertians/xmonkey-curator'
+    url='https://github.com/Xpertians/xmonkey-curator',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     install_requires=[
