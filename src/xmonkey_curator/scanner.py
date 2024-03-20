@@ -54,8 +54,8 @@ def process_file(file_path, results):
                 handler.process(lambda path: process_file(path, results))
             else:
                 words = handler.extract_words()
-                print("file:"+file_path+", mime:"+mime_type+", words:")
-                print(len(words))
+                if len(words) ==0:
+                    print("file:"+file_path+", mime:"+mime_type)
                 result = {
                     'file_path': file_path,
                     'mime_type': mime_type,
