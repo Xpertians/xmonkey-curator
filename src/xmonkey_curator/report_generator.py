@@ -1,6 +1,6 @@
 import json
 import logging
-from .file_utilities import FileUtilities  # Assuming this class provides MIME type and checksum functionalities.
+from .file_utilities import FileUtilities
 
 logger = logging.getLogger(__name__)
 

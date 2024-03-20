@@ -1,14 +1,11 @@
-# handler_registry.py
-
 from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler
-# Import other handlers as needed
 
 HANDLER_REGISTRY = {
     'text/plain': TextFileHandler,
     'application/x-executable': ElfFileHandler,
     'text/markdown': TextFileHandler,
-    # Add more MIME type and handler class mappings here
+    'text/x-python': TextFileHandler,
 }
 
 def register_handler(mime_type, handler_class):

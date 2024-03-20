@@ -1,5 +1,3 @@
-# archive_handler.py
-
 import os
 import tempfile
 import shutil
@@ -10,15 +8,12 @@ from ..base_handler import BaseFileHandler
 
 class ArchiveHandler(BaseFileHandler):
     def process(self, process_file_callback):
-        """Extracts the archive and processes its contents."""
         with tempfile.TemporaryDirectory() as temp_dir:
             self.extract_archive(temp_dir)
-            # Process each file in the temporary directory
-            for root, dirs, files in os.walk(temp_dir):
+            for root, _, files in os.walk(temp_dir):
                 for file in files:
                     file_path = os.path.join(root, file)
                     process_file_callback(file_path)
-            # Temporary directory and its contents are automatically cleaned up
 
     def extract_archive(self, destination):
         """Extracts the archive to the specified destination directory."""

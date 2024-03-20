@@ -1,8 +1,7 @@
-# elf_handler.py
-
 import lief
 from ..base_handler import BaseFileHandler
 import logging
+
 
 class ElfFileHandler(BaseFileHandler):
     def __init__(self, file_path):
@@ -13,7 +12,6 @@ class ElfFileHandler(BaseFileHandler):
         """Extract strings from an ELF file using LIEF."""
         if not self.is_eligible():
             return []
-
         try:
             elf = lief.parse(self.file_path)
             strings = []
