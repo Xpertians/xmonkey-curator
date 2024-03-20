@@ -5,6 +5,7 @@ HANDLER_REGISTRY = {
     'application/x-executable': ElfFileHandler,
     'text/plain': TextFileHandler,
     'text/markdown': TextFileHandler,
+    'text/x-c': TextFileHandler,
     'text/x-python': TextFileHandler,
     'text/x-java-source': TextFileHandler,
     'text/css:': TextFileHandler,
