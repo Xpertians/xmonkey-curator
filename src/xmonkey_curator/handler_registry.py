@@ -2,11 +2,14 @@ from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler
 
 HANDLER_REGISTRY = {
-    'text/plain': TextFileHandler,
     'application/x-executable': ElfFileHandler,
+    'text/plain': TextFileHandler,
     'text/markdown': TextFileHandler,
     'text/x-python': TextFileHandler,
     'text/x-java-source': TextFileHandler,
+    'text/css:': TextFileHandler,
+    'text/html': TextFileHandler,
+    'application/json': TextFileHandler,
 }
 
 def register_handler(mime_type, handler_class):
