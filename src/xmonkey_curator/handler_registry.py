@@ -2,6 +2,7 @@ from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler
 
 HANDLER_REGISTRY = {
+    'application/octet-stream': TextFileHandler,
     'text/plain': TextFileHandler,
     'application/x-executable': ElfFileHandler,
     'text/markdown': TextFileHandler,

@@ -53,8 +53,9 @@ def process_file(file_path, results):
             if isinstance(handler, ArchiveHandler):
                 handler.process(lambda path: process_file(path, results))
             else:
-                print("file:"+file_path+", mime:"+mime_type)
                 words = handler.extract_words()
+                print("file:"+file_path+", mime:"+mime_type+", words:")
+                print(len(words))
                 result = {
                     'file_path': file_path,
                     'mime_type': mime_type,

@@ -13,7 +13,8 @@ class TextFileHandler(BaseFileHandler):
         try:
             with open(self.file_path, 'r', encoding='utf-8') as file:
                 content = file.read()
-                words = re.findall(r'\b\w{3,}\b', content)
+                words = re.findall(r'\b\w{5,}\b', content.lower())
+                words = list(set(words))
                 return words
         except Exception as e:
             self.logger.error(f"Failed to process text file {self.file_path}: {e}")
