@@ -11,6 +11,8 @@ HANDLER_REGISTRY = {
     'text/css:': TextFileHandler,
     'text/html': TextFileHandler,
     'application/json': TextFileHandler,
+    'text/css': TextFileHandler,
+    'text/x-asm': TextFileHandler,
 }
 
 def register_handler(mime_type, handler_class):
