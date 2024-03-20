@@ -8,6 +8,7 @@ setup(
     install_requires=[
         'click>=7.0',
         'lief>=0.11.5',
+        'python-magic',
     ],
     extras_require={
         'test': ['pytest'],

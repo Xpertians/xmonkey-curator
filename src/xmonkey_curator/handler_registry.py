@@ -7,6 +7,7 @@ from .handlers import TextFileHandler, ElfFileHandler
 HANDLER_REGISTRY = {
     'text/plain': TextFileHandler,
     'application/x-executable': ElfFileHandler,
+    'text/markdown': TextFileHandler,
     # Add more MIME type and handler class mappings here
 }
 
@@ -14,7 +15,5 @@ def register_handler(mime_type, handler_class):
     """Registers a new handler for a given MIME type."""
     HANDLER_REGISTRY[mime_type] = handler_class
 
-def get_handler(file_path, mime_type):
-    """Returns an instance of the appropriate handler for the given MIME type."""
-    handler_class = HANDLER_REGISTRY.get(mime_type, BaseFileHandler)
-    return handler_class(file_path)
+def get_handler(mime_type):
+    return HANDLER_REGISTRY.get(mime_type)

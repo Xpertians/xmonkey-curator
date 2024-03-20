@@ -1,7 +1,7 @@
 # elf_handler.py
 
 import lief
-from .base_handler import BaseFileHandler
+from ..base_handler import BaseFileHandler
 import logging
 
 class ElfFileHandler(BaseFileHandler):
