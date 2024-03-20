@@ -4,6 +4,7 @@ import os
 import mimetypes
 from xmonkey_curator.handler_registry import get_handler
 from xmonkey_curator.report_generator import ReportGenerator
+from xmonkey_curator.handlers.archive_handler import ArchiveHandler
 from xmonkey_curator.file_utilities import FileUtilities
 
 
@@ -43,19 +44,23 @@ def process_file(file_path):
     Returns a dictionary with file processing result or None if no handler is found.
     """
     mime_type = FileUtilities.identify_mime_type(file_path)
-    handler_class = get_handler(mime_type if mime_type else "application/octet-stream")
-    if handler_class:
-        handler = handler_class(file_path)
-        words = handler.extract_words()  # Assuming each handler has an 'extract_words' method
-        # Return a dictionary with file processing details
-        return {
-            'file_path': file_path,
-            'mime_type': mime_type,
-            'words': words
-        }
+    if mime_type in ['application/zip', 'application/gzip', 'application/x-tar']:
+        handler = ArchiveHandler(file_path)
+        handler.process(lambda path: process_file(path, results_callback))  # Recursively process extracted files
     else:
-        logger.info(f"No handler registered for MIME type: {mime_type} for file {file_path}")
-        return None
+        handler_class = get_handler(mime_type if mime_type else "application/octet-stream")
+        if handler_class:
+            handler = handler_class(file_path)
+            words = handler.extract_words()  # Assuming each handler has an 'extract_words' method
+            # Return a dictionary with file processing details
+            return {
+                'file_path': file_path,
+                'mime_type': mime_type,
+                'words': words
+            }
+        else:
+            logger.info(f"No handler registered for MIME type: {mime_type} for file {file_path}")
+            return None
 
 if __name__ == '__main__':
     scan()
