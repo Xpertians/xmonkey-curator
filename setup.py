@@ -2,10 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='xmonkey-curator',
+    version='0.1.0',
     description="Automated OSS curation scanner",
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
-    version='0.1.0',
+    url='https://github.com/Xpertians/xmonkey-curator'
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     install_requires=[
