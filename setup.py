@@ -11,6 +11,7 @@ setup(
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
     url='https://github.com/Xpertians/xmonkey-curator',
+    license='Apache 2.0',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     install_requires=[
@@ -32,7 +33,7 @@ setup(
     test_suite="tests",
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
