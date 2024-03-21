@@ -1,5 +1,6 @@
 import logging
 
+
 class BaseFileHandler:
     def __init__(self, file_path):
         self.logger = logging.getLogger(self.__class__.__name__)

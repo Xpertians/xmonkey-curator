@@ -8,7 +8,11 @@ from xmonkey_curator.handlers.archive_handler import ArchiveHandler
 from xmonkey_curator.file_utilities import FileUtilities
 
 
-logging.basicConfig(filename='debug.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    filename='debug.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 EXCLUDED_MIME_TYPE_PREFIXES = [
@@ -23,6 +27,7 @@ EXCLUDED_MIME_TYPES = [
     'image/gif',
     'image/svg+xml',
 ]
+
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
@@ -48,10 +53,13 @@ def scan(path):
     # report_generator.print_report()
     report_generator.save_report('scan_report.json')
 
+
 def process_file(file_path, results):
     """
-    Processes a single file using the appropriate handler based on its MIME type.
-    Returns a dictionary with file processing result or None if no handler is found.
+    Processes a single file using the appropriate
+    handler based on its MIME type.
+    Returns a dictionary with file processing result
+    or None if no handler is found.
     """
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
@@ -73,7 +81,7 @@ def process_file(file_path, results):
                 handler.process(lambda path: process_file(path, results))
             else:
                 words = handler.extract_words()
-                if len(words) ==0:
+                if len(words) == 0:
                     logger.info(f"No words returned for MIME type: {mime_type} for file {file_path}")
                 result = {
                     'file_path': file_path,
