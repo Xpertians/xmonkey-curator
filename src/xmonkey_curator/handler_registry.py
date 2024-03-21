@@ -10,9 +10,13 @@ HANDLER_REGISTRY = {
     'text/x-java-source': TextFileHandler,
     'text/css:': TextFileHandler,
     'text/html': TextFileHandler,
-    'application/json': TextFileHandler,
     'text/css': TextFileHandler,
     'text/x-asm': TextFileHandler,
+    'application/json': TextFileHandler,
+    'application/x-sh': TextFileHandler,
+    'application/x-texinfo': TextFileHandler,
+    'application/xml': TextFileHandler,
+    'text/cache-manifest': TextFileHandler,
 }
 
 def register_handler(mime_type, handler_class):

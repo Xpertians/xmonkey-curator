@@ -11,6 +11,19 @@ from xmonkey_curator.file_utilities import FileUtilities
 logging.basicConfig(filename='debug.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+EXCLUDED_MIME_TYPE_PREFIXES = [
+    'image/',
+    'video/',
+    'audio/',
+]
+
+EXCLUDED_MIME_TYPES = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/svg+xml',
+]
+
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
 def scan(path):
@@ -43,7 +56,13 @@ def process_file(file_path, results):
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
     checksum = FileUtilities.calculate_checksum(file_path)
-    if mime_type in ['application/zip', 'application/gzip', 'application/x-tar']:
+    if mime_type in EXCLUDED_MIME_TYPES:
+        logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
+        return None
+    elif any(mime_type.startswith(prefix) for prefix in EXCLUDED_MIME_TYPE_PREFIXES):
+        logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
+        return None
+    elif mime_type in ['application/zip', 'application/gzip', 'application/x-tar']:
         handler = ArchiveHandler(file_path)
         handler.process(lambda path: process_file(path, results))
     else:
