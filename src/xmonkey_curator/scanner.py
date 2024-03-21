@@ -88,6 +88,15 @@ def process_file(file_path, results, archive_checksum=None):
         if handler_class:
             handler = handler_class(file_path)
             if isinstance(handler, ArchiveHandler):
+                result = {
+                    'file_path': file_path,
+                    'mime_type': mime_type,
+                    'size': file_size,
+                    'checksum': checksum,
+                    'is_archive': True,
+                    'words': '',
+                }
+                results.append(result)
                 archive_checksum = checksum
                 handler.process(lambda path: process_file(path, results, archive_checksum))
             else:
