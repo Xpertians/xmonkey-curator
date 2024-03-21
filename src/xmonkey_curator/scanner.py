@@ -54,7 +54,7 @@ def scan(path):
     report_generator.save_report('scan_report.json')
 
 
-def process_file(file_path, results):
+def process_file(file_path, results, archive_checksum=None):
     """
     Processes a single file using the appropriate
     handler based on its MIME type.
@@ -71,14 +71,25 @@ def process_file(file_path, results):
         logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
         return None
     elif mime_type in ['application/zip', 'application/gzip', 'application/x-tar']:
+        result = {
+            'file_path': file_path,
+            'mime_type': mime_type,
+            'size': file_size,
+            'checksum': checksum,
+            'is_archive': True,
+            'words': '',
+        }
+        results.append(result)
         handler = ArchiveHandler(file_path)
-        handler.process(lambda path: process_file(path, results))
+        archive_checksum = checksum
+        handler.process(lambda path: process_file(path, results, archive_checksum))
     else:
         handler_class = get_handler(mime_type if mime_type else "application/octet-stream")
         if handler_class:
             handler = handler_class(file_path)
             if isinstance(handler, ArchiveHandler):
-                handler.process(lambda path: process_file(path, results))
+                archive_checksum = checksum
+                handler.process(lambda path: process_file(path, results, archive_checksum))
             else:
                 words = handler.extract_words()
                 if len(words) == 0:
@@ -88,8 +99,11 @@ def process_file(file_path, results):
                     'mime_type': mime_type,
                     'size': file_size,
                     'checksum': checksum,
+                    'is_archive': False,
                     'words': words,
                 }
+                if archive_checksum:
+                    result['archive_checksum'] = archive_checksum
                 results.append(result)
         else:
             logger.info(f"No handler registered for MIME type: {mime_type} for file {file_path}")
