@@ -1,14 +1,14 @@
 from .base_handler import BaseFileHandler
-from .handlers import TextFileHandler, ElfFileHandler
+from .handlers import TextFileHandler, ElfFileHandler, PythonFileHandler
+from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
+from .handlers import RustFileHandler, RubyFileHandler
 
 
 HANDLER_REGISTRY = {
     'application/x-executable': ElfFileHandler,
+    # Plan Text and String
     'text/plain': TextFileHandler,
     'text/markdown': TextFileHandler,
-    'text/x-c': TextFileHandler,
-    'text/x-python': TextFileHandler,
-    'text/x-java-source': TextFileHandler,
     'text/css:': TextFileHandler,
     'text/html': TextFileHandler,
     'text/css': TextFileHandler,
@@ -18,6 +18,15 @@ HANDLER_REGISTRY = {
     'application/x-texinfo': TextFileHandler,
     'application/xml': TextFileHandler,
     'text/cache-manifest': TextFileHandler,
+    # CTags based extraction
+    'text/x-c': CplusFileHandler,
+    'text/x-python': PythonFileHandler,
+    'text/x-perl': PerlFileHandler,
+    'text/x-java-source': JavaFileHandler,
+    'text/rust': RustFileHandler,
+    'text/x-rust': RustFileHandler,
+    'text/ruby': RubyFileHandler,
+    'text/x-ruby': RubyFileHandler,
 }
 
 
