@@ -1,9 +1,13 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name='xmonkey-curator',
     version='0.1.0',
     description="Automated OSS curation scanner",
+    long_description=long_description,
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
     url='https://github.com/Xpertians/xmonkey-curator',
