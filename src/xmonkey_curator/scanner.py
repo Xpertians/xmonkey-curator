@@ -74,7 +74,7 @@ def process_file(file_path, results):
             else:
                 words = handler.extract_words()
                 if len(words) ==0:
-                    print("file:"+file_path+", mime:"+mime_type)
+                    logger.info(f"No words returned for MIME type: {mime_type} for file {file_path}")
                 result = {
                     'file_path': file_path,
                     'mime_type': mime_type,
