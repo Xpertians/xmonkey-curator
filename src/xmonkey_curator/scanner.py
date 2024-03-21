@@ -22,10 +22,8 @@ EXCLUDED_MIME_TYPE_PREFIXES = [
 ]
 
 EXCLUDED_MIME_TYPES = [
-    'image/jpeg',
-    'image/png',
-    'image/gif',
-    'image/svg+xml',
+    'application/pgp-signature',
+    'application/x-font-type1',
 ]
 
 
@@ -71,7 +69,7 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
     elif any(mime_type.startswith(prefix) for prefix in EXCLUDED_MIME_TYPE_PREFIXES):
         logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
         return None
-    elif mime_type in ['application/zip', 'application/gzip', 'application/x-tar']:
+    elif mime_type in ['application/zip', 'application/gzip', 'application/x-tar', 'application/java-archive']:
         result = {
             'file_path': file_path,
             'mime_type': mime_type,

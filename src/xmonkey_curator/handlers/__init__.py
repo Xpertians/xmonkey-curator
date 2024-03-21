@@ -6,3 +6,4 @@ from .cplus_handler import CplusFileHandler
 from .java_handler import JavaFileHandler
 from .rust_handler import RustFileHandler
 from .ruby_handler import RubyFileHandler
+from .objectivec_handler import ObjectivecFileHandler

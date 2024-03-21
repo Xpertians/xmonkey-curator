@@ -1,7 +1,7 @@
 from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler, PythonFileHandler
 from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
-from .handlers import RustFileHandler, RubyFileHandler
+from .handlers import RustFileHandler, RubyFileHandler, ObjectivecFileHandler
 
 
 HANDLER_REGISTRY = {
@@ -13,20 +13,24 @@ HANDLER_REGISTRY = {
     'text/html': TextFileHandler,
     'text/css': TextFileHandler,
     'text/x-asm': TextFileHandler,
+    'text/cache-manifest': TextFileHandler,
     'application/json': TextFileHandler,
     'application/x-sh': TextFileHandler,
     'application/x-texinfo': TextFileHandler,
     'application/xml': TextFileHandler,
-    'text/cache-manifest': TextFileHandler,
+    'application/cu-seeme': TextFileHandler,
+    'application/x-msdownload': TextFileHandler,
     # CTags based extraction
     'text/x-c': CplusFileHandler,
     'text/x-python': PythonFileHandler,
+    'application/x-python-code': PythonFileHandler,
     'text/x-perl': PerlFileHandler,
     'text/x-java-source': JavaFileHandler,
     'text/rust': RustFileHandler,
     'text/x-rust': RustFileHandler,
     'text/ruby': RubyFileHandler,
     'text/x-ruby': RubyFileHandler,
+    'text/x-objective-c': ObjectivecFileHandler,
 }
 
 

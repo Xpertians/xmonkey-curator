@@ -5,9 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='xmonkey-curator',
-    version='0.1.0',
+    version='0.1.1',
     description="Automated OSS curation scanner",
     long_description=long_description,
+    long_description_content_type='text/x-rst',
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
     url='https://github.com/Xpertians/xmonkey-curator',
