@@ -31,7 +31,8 @@ EXCLUDED_MIME_TYPES = [
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
-def scan(path):
+@click.option('--force-text', is_flag=True, help="Force the use of StringExtract for all files.")
+def scan(path, force_text):
     """
     Scans a given file or recursively scans a directory for files to process.
     """
@@ -41,12 +42,12 @@ def scan(path):
         for root, _, files in os.walk(path):
             for file in files:
                 file_path = os.path.join(root, file)
-                result = process_file(file_path, results)
+                result = process_file(file_path, results, '', force_text)
                 if result:
                     results.append(result)
     else:
         logger.info(f"Scanning file: {path}")
-        result = process_file(path, results)
+        result = process_file(path, results, '', force_text)
         if result:
             results.append(result)
     report_generator = ReportGenerator(results)
@@ -54,7 +55,7 @@ def scan(path):
     report_generator.save_report('scan_report.json')
 
 
-def process_file(file_path, results, archive_checksum=None):
+def process_file(file_path, results, archive_checksum=None, force_text=False):
     """
     Processes a single file using the appropriate
     handler based on its MIME type.
@@ -82,7 +83,23 @@ def process_file(file_path, results, archive_checksum=None):
         results.append(result)
         handler = ArchiveHandler(file_path)
         archive_checksum = checksum
-        handler.process(lambda path: process_file(path, results, archive_checksum))
+        handler.process(lambda path: process_file(path, results, archive_checksum, force_text))
+    elif force_text:
+        handler_class = get_handler("text/plain")
+        if handler_class:
+            handler = handler_class(file_path)
+            words = handler.extract_words()
+            result = {
+                'file_path': file_path,
+                'mime_type': mime_type,
+                'size': file_size,
+                'checksum': checksum,
+                'is_archive': False,
+                'words': words,
+            }
+            if archive_checksum:
+                result['archive_checksum'] = archive_checksum
+            results.append(result)
     else:
         handler_class = get_handler(mime_type if mime_type else "application/octet-stream")
         if handler_class:
@@ -98,7 +115,7 @@ def process_file(file_path, results, archive_checksum=None):
                 }
                 results.append(result)
                 archive_checksum = checksum
-                handler.process(lambda path: process_file(path, results, archive_checksum))
+                handler.process(lambda path: process_file(path, results, archive_checksum, force_text))
             else:
                 words = handler.extract_words()
                 if len(words) == 0:
