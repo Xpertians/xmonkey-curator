@@ -26,6 +26,12 @@ EXCLUDED_MIME_TYPES = [
     'application/x-font-type1',
 ]
 
+ARCHIVE_MIME_TYPES = [
+    'application/zip',
+    'application/gzip',
+    'application/x-tar',
+    'application/java-archive',
+]
 
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
@@ -69,7 +75,7 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
     elif any(mime_type.startswith(prefix) for prefix in EXCLUDED_MIME_TYPE_PREFIXES):
         logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
         return None
-    elif mime_type in ['application/zip', 'application/gzip', 'application/x-tar', 'application/java-archive']:
+    elif mime_type in ARCHIVE_MIME_TYPES:
         result = {
             'file_path': file_path,
             'mime_type': mime_type,

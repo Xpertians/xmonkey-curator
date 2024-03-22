@@ -8,11 +8,15 @@ HANDLER_REGISTRY = {
     'application/x-executable': ElfFileHandler,
     # Plan Text and String
     'text/plain': TextFileHandler,
+    'text/x-makefile': TextFileHandler,
     'text/markdown': TextFileHandler,
     'text/css:': TextFileHandler,
     'text/html': TextFileHandler,
-    'text/css': TextFileHandler,
+    'text/xml': TextFileHandler,
+    'text/csv': TextFileHandler,
+    'text/vtt': TextFileHandler,
     'text/x-asm': TextFileHandler,
+    'text/x-shellscript': TextFileHandler,
     'text/cache-manifest': TextFileHandler,
     'application/json': TextFileHandler,
     'application/x-sh': TextFileHandler,
@@ -20,8 +24,9 @@ HANDLER_REGISTRY = {
     'application/xml': TextFileHandler,
     'application/cu-seeme': TextFileHandler,
     'application/x-msdownload': TextFileHandler,
-    # CTags based extraction
+    # Pygments based extraction
     'text/x-c': CplusFileHandler,
+    'text/x-c++': CplusFileHandler,
     'text/x-python': PythonFileHandler,
     'application/x-python-code': PythonFileHandler,
     'text/x-perl': PerlFileHandler,

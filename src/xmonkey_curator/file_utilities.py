@@ -1,4 +1,5 @@
 import mimetypes
+import magic
 import os
 import hashlib
 
@@ -7,7 +8,15 @@ class FileUtilities:
     @staticmethod
     def identify_mime_type(file_path):
         mime_type, _ = mimetypes.guess_type(file_path)
-        return mime_type or "application/octet-stream"
+        if mime_type:
+            return mime_type
+        else:
+            mime = magic.Magic(mime=True)
+            mime_type = mime.from_file(file_path)
+            if mime_type:
+                return mime_type
+            else:
+                return "application/octet-stream"
 
     @staticmethod
     def get_file_size(file_path):

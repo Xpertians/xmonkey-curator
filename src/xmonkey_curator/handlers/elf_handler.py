@@ -1,4 +1,5 @@
 import lief
+import os
 from ..base_handler import BaseFileHandler
 import logging
 

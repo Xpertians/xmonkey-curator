@@ -1,5 +1,6 @@
-import logging
 import re
+import os
+import logging
 from ..base_handler import BaseFileHandler
 from pygments import lex
 from pygments.lexers import get_lexer_by_name
@@ -16,6 +17,9 @@ class RubyFileHandler(BaseFileHandler):
 
     def extract_words(self):
         symbols = []
+        base_name = os.path.basename(self.file_path)
+        file_name = os.path.splitext(base_name)[0]
+        symbols.append(file_name.lower())
         lexer = get_lexer_by_name('ruby')
         try:
             with open(self.file_path, 'r') as file:
@@ -33,6 +37,10 @@ class RubyFileHandler(BaseFileHandler):
                     elif 'String' in token_type_str or 'Name' in token_type_str:
                         if value[0].islower():
                             symbols.append(value.lower())
+                    elif 'PreprocFile' in token_type_str:
+                        base_name = os.path.basename(value)
+                        file_name = os.path.splitext(base_name)[0]
+                        symbols.append(file_name.lower())
         except FileNotFoundError:
             print(f"File not found: {file_path}")
         except Exception as e:
