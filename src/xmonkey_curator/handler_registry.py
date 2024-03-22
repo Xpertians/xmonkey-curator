@@ -28,6 +28,7 @@ HANDLER_REGISTRY = {
     'text/x-java-source': JavaFileHandler,
     'text/rust': RustFileHandler,
     'text/x-rust': RustFileHandler,
+    'application/rls-services+xml': RustFileHandler,
     'text/ruby': RubyFileHandler,
     'text/x-ruby': RubyFileHandler,
     'text/x-objective-c': ObjectivecFileHandler,

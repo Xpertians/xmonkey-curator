@@ -1,10 +1,9 @@
 import logging
 import re
-from ..base_handler import BaseFileHandler
-from ..CtagsHandler import CtagsHandler
 import sys
 from pygments import lex
 from pygments.lexers import get_lexer_by_name
+
 
 class PythonFileHandler(BaseFileHandler):
     def __init__(self, file_path):
@@ -39,5 +38,6 @@ class PythonFileHandler(BaseFileHandler):
         except Exception as e:
             print(f"Error processing file: {e}")
         words = list(set(symbols))
-        words = [word for word in words if len(word) >= 3]
+        regex = re.compile(r'[^a-zA-Z\s_-]+')
+        words = [regex.sub('', word).strip() for word in words if len(regex.sub('', word).strip()) >= 5]
         return words
