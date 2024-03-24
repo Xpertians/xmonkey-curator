@@ -4,6 +4,7 @@ from .python_handler import PythonFileHandler
 from .perl_handler import PerlFileHandler
 from .cplus_handler import CplusFileHandler
 from .java_handler import JavaFileHandler
+from .jvm_handler import JvmFileHandler
 from .rust_handler import RustFileHandler
 from .ruby_handler import RubyFileHandler
 from .objectivec_handler import ObjectivecFileHandler

@@ -2,6 +2,7 @@ from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler, PythonFileHandler
 from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
 from .handlers import RustFileHandler, RubyFileHandler, ObjectivecFileHandler
+from .handlers import JvmFileHandler
 
 
 HANDLER_REGISTRY = {
@@ -31,6 +32,7 @@ HANDLER_REGISTRY = {
     'application/x-python-code': PythonFileHandler,
     'text/x-perl': PerlFileHandler,
     'text/x-java-source': JavaFileHandler,
+    'application/java-vm': JvmFileHandler,
     'text/rust': RustFileHandler,
     'text/x-rust': RustFileHandler,
     'application/rls-services+xml': RustFileHandler,
