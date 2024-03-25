@@ -38,13 +38,15 @@ class ArchiveHandler(BaseFileHandler):
                 dest_file = destination+"/"+file_name
                 with open(dest_file, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
-        elif filetype in 'application/x-bzip2':
+        elif filetype == 'application/x-bzip2':
             print('bunzip2:', self.file_path)
-            with bz2.BZ2File(self.file_path) as fr, open(destination, "wb") as fw:
-                shutil.copyfileobj(fr, fw)
-        elif filetype in 'application/x-xz':
-            with lzma.open(self.file_path) as f, open(destination, 'wb') as fout:
-                file_content = f.read()
-                fout.write(file_content)
+            with bz2.BZ2File(self.file_path) as fr:
+                with open(destination, "wb") as fw:
+                    shutil.copyfileobj(fr, fw)
+        elif filetype == 'application/x-xz':
+            with lzma.open(self.file_path) as f:
+                with open(destination, 'wb') as fout:
+                    file_content = f.read()
+                    fout.write(file_content)
         else:
             raise ValueError(f"Unsupported archive format: {self.file_path}")
