@@ -36,7 +36,9 @@ ARCHIVE_MIME_TYPES = [
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--force-text', is_flag=True, help="Force the use of StringExtract for all files.")
-def scan(path, force_text):
+@click.option('--skip-extraction', is_flag=True, help="Skip extracting files from archives.")
+@click.option('--print-report', is_flag=True, help="Print the report instead of saving to JSON.")
+def scan(path, force_text, skip_extraction, print_report):
     """
     Scans a given file or recursively scans a directory for files to process.
     """
@@ -46,20 +48,22 @@ def scan(path, force_text):
         for root, _, files in os.walk(path):
             for file in files:
                 file_path = os.path.join(root, file)
-                result = process_file(file_path, results, '', force_text)
+                result = process_file(file_path, results, '', force_text, skip_extraction)
                 if result:
                     results.append(result)
     else:
         logger.info(f"Scanning file: {path}")
-        result = process_file(path, results, '', force_text)
+        result = process_file(path, results, '', force_text, skip_extraction)
         if result:
             results.append(result)
     report_generator = ReportGenerator(results)
-    # report_generator.print_report()
-    report_generator.save_report('scan_report.json')
+    if print_report:
+        report_generator.print_report()
+    else:
+        report_generator.save_report('scan_report.json')
 
 
-def process_file(file_path, results, archive_checksum=None, force_text=False):
+def process_file(file_path, results, archive_checksum=None, force_text=False, skip_extraction=False):
     """
     Processes a single file using the appropriate
     handler based on its MIME type.
@@ -76,6 +80,10 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
         logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
         return None
     elif mime_type in ARCHIVE_MIME_TYPES:
+        if not skip_extraction:
+            handler = ArchiveHandler(file_path)
+            archive_checksum = hash_md5
+            handler.process(lambda path: process_file(path, results, archive_checksum, force_text, skip_extraction))
         result = {
             'file_path': file_path,
             'mime_type': mime_type,
@@ -90,9 +98,6 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
             'words': '',
         }
         results.append(result)
-        handler = ArchiveHandler(file_path)
-        archive_checksum = hash_md5
-        handler.process(lambda path: process_file(path, results, archive_checksum, force_text))
     elif force_text:
         handler_class = get_handler("text/plain")
         if handler_class:
@@ -134,7 +139,7 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
                 }
                 results.append(result)
                 archive_checksum = checksum
-                handler.process(lambda path: process_file(path, results, archive_checksum, force_text))
+                handler.process(lambda path: process_file(path, results, archive_checksum, force_text, skip_extraction))
             else:
                 words = handler.extract_words()
                 if len(words) == 0:
