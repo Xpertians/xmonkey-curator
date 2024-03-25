@@ -37,4 +37,5 @@ class FileUtilities:
                 hash_md5.update(chunk)
                 hash_sha256.update(chunk)
                 hash_sha1.update(chunk)
-        return hash_md5.hexdigest(), hash_sha1.hexdigest(), hash_sha256.hexdigest(), hash_ssdeep
+        return (hash_md5.hexdigest(), hash_sha1.hexdigest(),
+                hash_sha256.hexdigest(), hash_ssdeep)
