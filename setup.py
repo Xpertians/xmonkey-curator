@@ -20,6 +20,7 @@ setup(
         'lief>=0.11.5',
         'python-magic',
         'pygments',
+        'ssdeep',
     ],
     extras_require={
         'test': ['pytest'],

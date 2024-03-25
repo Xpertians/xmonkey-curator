@@ -2,6 +2,7 @@ import mimetypes
 import magic
 import os
 import hashlib
+import ssdeep
 
 
 class FileUtilities:
@@ -24,10 +25,16 @@ class FileUtilities:
         return os.path.getsize(file_path)
 
     @staticmethod
-    def calculate_checksum(file_path):
-        """Calculate the MD5 checksum of a file."""
+    def calculate_hashes(file_path):
         hash_md5 = hashlib.md5()
+        hash_sha256 = hashlib.sha256()
+        hash_sha1 = hashlib.sha1()
+        hash_ssdeep = ''
         with open(file_path, "rb") as f:
+            file_content = f.read()
+            hash_ssdeep = ssdeep.hash(file_content)
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
-        return hash_md5.hexdigest()
+                hash_sha256.update(chunk)
+                hash_sha1.update(chunk)
+        return hash_md5.hexdigest(), hash_sha1.hexdigest(), hash_sha256.hexdigest(), hash_ssdeep

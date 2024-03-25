@@ -68,7 +68,7 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
     """
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
-    checksum = FileUtilities.calculate_checksum(file_path)
+    hash_md5, hash_sha1, hash_sha256, hash_ssdeep = FileUtilities.calculate_hashes(file_path)
     if mime_type in EXCLUDED_MIME_TYPES:
         logger.info(f"Skipping excluded MIME type: {mime_type} for file {file_path}")
         return None
@@ -80,13 +80,18 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
             'file_path': file_path,
             'mime_type': mime_type,
             'size': file_size,
-            'checksum': checksum,
+            'hashes': {
+                "md5": hash_md5,
+                "fuzzy": hash_ssdeep,
+                "sha1": hash_sha1,
+                "sha256": hash_sha256
+            },
             'is_archive': True,
             'words': '',
         }
         results.append(result)
         handler = ArchiveHandler(file_path)
-        archive_checksum = checksum
+        archive_checksum = hash_md5
         handler.process(lambda path: process_file(path, results, archive_checksum, force_text))
     elif force_text:
         handler_class = get_handler("text/plain")
@@ -97,7 +102,12 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
                 'file_path': file_path,
                 'mime_type': mime_type,
                 'size': file_size,
-                'checksum': checksum,
+                'hashes': {
+                    "md5": hash_md5,
+                    "fuzzy": hash_ssdeep,
+                    "sha1": hash_sha1,
+                    "sha256": hash_sha256
+                },
                 'is_archive': False,
                 'words': words,
             }
@@ -113,7 +123,12 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
                     'file_path': file_path,
                     'mime_type': mime_type,
                     'size': file_size,
-                    'checksum': checksum,
+                    'hashes': {
+                        "md5": hash_md5,
+                        "fuzzy": hash_ssdeep,
+                        "sha1": hash_sha1,
+                        "sha256": hash_sha256
+                    },
                     'is_archive': True,
                     'words': '',
                 }
@@ -128,7 +143,12 @@ def process_file(file_path, results, archive_checksum=None, force_text=False):
                     'file_path': file_path,
                     'mime_type': mime_type,
                     'size': file_size,
-                    'checksum': checksum,
+                    'hashes': {
+                        "md5": hash_md5,
+                        "fuzzy": hash_ssdeep,
+                        "sha1": hash_sha1,
+                        "sha256": hash_sha256
+                    },
                     'is_archive': False,
                     'words': words,
                 }
