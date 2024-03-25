@@ -22,5 +22,8 @@ class JvmFileHandler(BaseFileHandler):
         symbols.append(file_name.lower())
         words = list(set(symbols))
         regex = re.compile(r'[^a-zA-Z\s_-]+')
-        words = [regex.sub('', word).strip() for word in words if len(regex.sub('', word).strip()) >= 5]
+        words = [
+            regex.sub('', word).strip() for word in words
+            if len(regex.sub('', word).strip()) >= 5
+        ]
         return words
