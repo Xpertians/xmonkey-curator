@@ -21,6 +21,7 @@ setup(
         'python-magic',
         'pygments',
         'ssdeep',
+        'tqdm'
     ],
     extras_require={
         'test': ['pytest'],

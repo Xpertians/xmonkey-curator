@@ -19,7 +19,7 @@ class ObjectivecFileHandler(BaseFileHandler):
         try:
             with open(self.file_path, 'r') as file:
                 source_code = file.read()
-                words = LexerUtilities.lexer('objetive-c', source_code)
+                words = LexerUtilities.lexer('objective-c', source_code)
         except FileNotFoundError:
             print(f"File not found: {file_path}")
         except Exception as e:

@@ -2,7 +2,7 @@ from .base_handler import BaseFileHandler
 from .handlers import TextFileHandler, ElfFileHandler, PythonFileHandler
 from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
 from .handlers import RustFileHandler, RubyFileHandler, ObjectivecFileHandler
-from .handlers import JvmFileHandler
+from .handlers import JvmFileHandler, OctetStreamFileHandler
 
 
 HANDLER_REGISTRY = {
@@ -25,6 +25,8 @@ HANDLER_REGISTRY = {
     'application/xml': TextFileHandler,
     'application/cu-seeme': TextFileHandler,
     'application/x-msdownload': TextFileHandler,
+    # application/octet-stream
+    'application/octet-stream': OctetStreamFileHandler,
     # Pygments based extraction
     'text/x-c': CplusFileHandler,
     'text/x-c++': CplusFileHandler,

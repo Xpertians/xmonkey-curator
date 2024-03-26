@@ -1,7 +1,8 @@
+import os
 import click
 import logging
-import os
 import mimetypes
+from tqdm import tqdm
 from xmonkey_curator.handler_registry import get_handler
 from xmonkey_curator.report_generator import ReportGenerator
 from xmonkey_curator.handlers.archive_handler import ArchiveHandler
@@ -46,13 +47,16 @@ def scan(path, force_text, skip_extraction, print_report):
     results = []
     if os.path.isdir(path):
         logger.info(f"Scanning directory: {path}")
-        for root, _, files in os.walk(path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                result = process_file(file_path, results, '',
-                                      force_text, skip_extraction)
-                if result:
-                    results.append(result)
+        all_files = [
+            os.path.join(root, file)
+            for root, _, files in os.walk(path)
+            for file in files
+        ]
+        for file_path in tqdm(all_files, desc="Scanning files"):
+            result = process_file(file_path, results, '',
+                                  force_text, skip_extraction)
+            if result:
+                results.append(result)
     else:
         logger.info(f"Scanning file: {path}")
         result = process_file(path, results, '', force_text, skip_extraction)

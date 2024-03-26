@@ -1,6 +1,4 @@
 import os
-import tempfile
-import shutil
 import bz2
 import gzip
 import lzma
@@ -8,6 +6,8 @@ import magic
 import shutil
 import zipfile
 import tarfile
+import tempfile
+from tqdm import tqdm
 from ..base_handler import BaseFileHandler
 from ..file_utilities import FileUtilities
 
@@ -16,10 +16,14 @@ class ArchiveHandler(BaseFileHandler):
     def process(self, process_file_callback):
         with tempfile.TemporaryDirectory() as temp_dir:
             self.extract_archive(temp_dir)
-            for root, _, files in os.walk(temp_dir):
-                for file in files:
-                    file_path = os.path.join(root, file)
-                    process_file_callback(file_path)
+            extracted_files = [
+                os.path.join(root, file_name)
+                for root, dirnames, files in os.walk(temp_dir)
+                for file_name in files
+            ]
+            desc = f"Extracting {os.path.basename(self.file_path)}"
+            for file_path in tqdm(extracted_files, desc=desc[:75]):
+                process_file_callback(file_path)
 
     def extract_archive(self, destination):
         """Extracts the archive to the specified destination directory."""
