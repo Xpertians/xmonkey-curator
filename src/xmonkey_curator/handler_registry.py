@@ -25,7 +25,6 @@ HANDLER_REGISTRY = {
     'application/x-tex': TextFileHandler,
     'application/x-texinfo': TextFileHandler,
     'application/xml': TextFileHandler,
-    'application/pdf': TextFileHandler,
     'application/postscript': TextFileHandler,
     'application/cu-seeme': TextFileHandler,
     'application/x-msdownload': TextFileHandler,

@@ -25,6 +25,7 @@ EXCLUDED_MIME_TYPE_PREFIXES = [
 EXCLUDED_MIME_TYPES = [
     'application/pgp-signature',
     'application/x-font-type1',
+    'application/pdf',
 ]
 
 ARCHIVE_MIME_TYPES = [
