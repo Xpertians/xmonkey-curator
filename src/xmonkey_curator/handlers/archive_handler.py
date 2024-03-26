@@ -8,6 +8,8 @@ import rpmfile
 import zipfile
 import tarfile
 import tempfile
+import subprocess
+from os import path
 from tqdm import tqdm
 from ..base_handler import BaseFileHandler
 from ..file_utilities import FileUtilities
@@ -60,5 +62,29 @@ class ArchiveHandler(BaseFileHandler):
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
                     with open(file_path, 'wb') as f_out, rpm.extractfile(entry) as f_in:
                         f_out.write(f_in.read())
+        elif filetype == 'application/x-debian-package':
+            destination = os.path.abspath(destination)
+            os.makedirs(destination, exist_ok=True)
+            file_path = os.path.abspath(self.file_path)
+            cmd = f"ar -x {file_path}"
+            print(cmd)
+            if (path.exists(file_path)):
+                process = subprocess.Popen(
+                    cmd,
+                    cwd=destination,
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+                (result, error) = process.communicate()
+                if process.returncode != 0:
+                    print(f"Error extracting .deb package: {error.decode()}")
+                    return
+                rc = process.wait()
+                process.stdout.close()
+                data_archives = [f for f in os.listdir(destination) if f.startswith('data.tar')]
+                for data_archive in data_archives:
+                    data_archive_path = os.path.join(destination, data_archive)
+                    with tarfile.open(data_archive_path) as data:
+                        data.extractall(path=destination)
         else:
             raise ValueError(f"Unsupported archive format: {self.file_path}")

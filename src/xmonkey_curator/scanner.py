@@ -32,6 +32,7 @@ ARCHIVE_MIME_TYPES = [
     'application/gzip',
     'application/x-tar',
     'application/x-rpm',
+    'application/x-debian-package',
     'application/java-archive',
 ]
 

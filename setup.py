@@ -23,7 +23,7 @@ setup(
         'ssdeep',
         'tqdm',
         'rpmfile',
-        'zstandard'
+        'zstandard',
     ],
     extras_require={
         'test': ['pytest'],
