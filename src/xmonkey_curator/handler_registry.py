@@ -15,6 +15,7 @@ HANDLER_REGISTRY = {
     'text/html': TextFileHandler,
     'text/xml': TextFileHandler,
     'text/csv': TextFileHandler,
+    'text/x-tex': TextFileHandler,
     'text/vtt': TextFileHandler,
     'text/x-asm': TextFileHandler,
     'text/x-shellscript': TextFileHandler,
@@ -23,6 +24,8 @@ HANDLER_REGISTRY = {
     'application/x-sh': TextFileHandler,
     'application/x-texinfo': TextFileHandler,
     'application/xml': TextFileHandler,
+    'application/pdf': TextFileHandler,
+    'application/postscript': TextFileHandler,
     'application/cu-seeme': TextFileHandler,
     'application/x-msdownload': TextFileHandler,
     # Pygments based extraction
