@@ -25,8 +25,6 @@ HANDLER_REGISTRY = {
     'application/xml': TextFileHandler,
     'application/cu-seeme': TextFileHandler,
     'application/x-msdownload': TextFileHandler,
-    # application/octet-stream
-    'application/octet-stream': OctetStreamFileHandler,
     # Pygments based extraction
     'text/x-c': CplusFileHandler,
     'text/x-c++': CplusFileHandler,
@@ -42,6 +40,7 @@ HANDLER_REGISTRY = {
     'text/x-ruby': RubyFileHandler,
     'text/x-objective-c': ObjectivecFileHandler,
     # Library Specific
+    'application/octet-stream': OctetStreamFileHandler,
 }
 
 

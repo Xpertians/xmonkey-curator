@@ -134,7 +134,7 @@ def process_file(file_path, results, archive_checksum=None,
                 'words': words,
             }
             if archive_checksum:
-                result['archive_checksum'] = archive_checksum
+                result['parent_checksum'] = archive_checksum
             results.append(result)
     else:
         handler_class = get_handler(
@@ -188,7 +188,7 @@ def process_file(file_path, results, archive_checksum=None,
                     'words': words,
                 }
                 if archive_checksum:
-                    result['archive_checksum'] = archive_checksum
+                    result['parent_checksum'] = archive_checksum
                 results.append(result)
         else:
             logger.info(

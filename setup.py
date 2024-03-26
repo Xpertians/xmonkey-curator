@@ -22,7 +22,8 @@ setup(
         'pygments',
         'ssdeep',
         'tqdm',
-        'rpmfile'
+        'rpmfile',
+        'zstandard'
     ],
     extras_require={
         'test': ['pytest'],
