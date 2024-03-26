@@ -22,6 +22,7 @@ HANDLER_REGISTRY = {
     'text/cache-manifest': TextFileHandler,
     'application/json': TextFileHandler,
     'application/x-sh': TextFileHandler,
+    'application/x-tex': TextFileHandler,
     'application/x-texinfo': TextFileHandler,
     'application/xml': TextFileHandler,
     'application/pdf': TextFileHandler,
