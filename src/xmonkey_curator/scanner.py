@@ -27,6 +27,7 @@ EXCLUDED_MIME_TYPES = [
     'application/x-font-type1',
     'application/pdf',
     'application/x-git',
+    'inode/symlink',
 ]
 
 ARCHIVE_MIME_TYPES = [
