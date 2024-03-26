@@ -41,6 +41,7 @@ HANDLER_REGISTRY = {
     'text/ruby': RubyFileHandler,
     'text/x-ruby': RubyFileHandler,
     'text/x-objective-c': ObjectivecFileHandler,
+    # Library Specific
 }
 
 

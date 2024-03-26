@@ -31,6 +31,7 @@ ARCHIVE_MIME_TYPES = [
     'application/zip',
     'application/gzip',
     'application/x-tar',
+    'application/x-rpm',
     'application/java-archive',
 ]
 

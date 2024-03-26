@@ -4,6 +4,7 @@ import gzip
 import lzma
 import magic
 import shutil
+import rpmfile
 import zipfile
 import tarfile
 import tempfile
@@ -52,5 +53,12 @@ class ArchiveHandler(BaseFileHandler):
                 with open(destination, 'wb') as fout:
                     file_content = f.read()
                     fout.write(file_content)
+        elif filetype == 'application/x-rpm':
+            with rpmfile.open(self.file_path) as rpm:
+                for entry in rpm.getmembers():
+                    file_path = os.path.join(destination, entry.name)
+                    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                    with open(file_path, 'wb') as f_out, rpm.extractfile(entry) as f_in:
+                        f_out.write(f_in.read())
         else:
             raise ValueError(f"Unsupported archive format: {self.file_path}")

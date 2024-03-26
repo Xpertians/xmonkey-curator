@@ -21,7 +21,8 @@ setup(
         'python-magic',
         'pygments',
         'ssdeep',
-        'tqdm'
+        'tqdm',
+        'rpmfile'
     ],
     extras_require={
         'test': ['pytest'],
