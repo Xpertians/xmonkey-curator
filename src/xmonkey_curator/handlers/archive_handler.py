@@ -46,7 +46,6 @@ class ArchiveHandler(BaseFileHandler):
                 with open(dest_file, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
         elif filetype == 'application/x-bzip2':
-            print('bunzip2:', self.file_path)
             with bz2.BZ2File(self.file_path) as fr:
                 with open(destination, "wb") as fw:
                     shutil.copyfileobj(fr, fw)
@@ -60,14 +59,14 @@ class ArchiveHandler(BaseFileHandler):
                 for entry in rpm.getmembers():
                     file_path = os.path.join(destination, entry.name)
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
-                    with open(file_path, 'wb') as f_out, rpm.extractfile(entry) as f_in:
+                    with open(file_path, 'wb') as f_out, \
+                            rpm.extractfile(entry) as f_in:
                         f_out.write(f_in.read())
         elif filetype == 'application/x-debian-package':
             destination = os.path.abspath(destination)
             os.makedirs(destination, exist_ok=True)
             file_path = os.path.abspath(self.file_path)
             cmd = f"ar -x {file_path}"
-            print(cmd)
             if (path.exists(file_path)):
                 process = subprocess.Popen(
                     cmd,
@@ -81,7 +80,10 @@ class ArchiveHandler(BaseFileHandler):
                     return
                 rc = process.wait()
                 process.stdout.close()
-                data_archives = [f for f in os.listdir(destination) if f.startswith('data.tar')]
+                data_archives = [
+                    f for f in os.listdir(destination)
+                    if f.startswith('data.tar')
+                ]
                 for data_archive in data_archives:
                     data_archive_path = os.path.join(destination, data_archive)
                     with tarfile.open(data_archive_path) as data:
