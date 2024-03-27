@@ -11,7 +11,7 @@ HANDLER_REGISTRY = {
     'text/plain': TextFileHandler,
     'text/x-makefile': TextFileHandler,
     'text/markdown': TextFileHandler,
-    'text/css:': TextFileHandler,
+    'text/css': TextFileHandler,
     'text/html': TextFileHandler,
     'text/xml': TextFileHandler,
     'text/csv': TextFileHandler,
