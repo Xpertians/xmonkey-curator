@@ -37,6 +37,7 @@ ARCHIVE_MIME_TYPES = [
     'application/x-rpm',
     'application/x-debian-package',
     'application/java-archive',
+    'application/vnd.android.package-archive',
 ]
 
 
