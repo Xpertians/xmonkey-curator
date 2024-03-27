@@ -19,6 +19,7 @@ setup(
         'click>=7.0',
         'lief>=0.11.5',
         'python-magic',
+        'libmagic',
         'pygments',
         'ssdeep',
         'tqdm',
