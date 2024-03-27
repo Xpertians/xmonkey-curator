@@ -4,6 +4,7 @@ from .file_utilities import FileUtilities
 
 logger = logging.getLogger(__name__)
 
+
 class ReportGenerator:
     def __init__(self, results):
         self.results = results
@@ -26,6 +27,7 @@ class ReportGenerator:
         with open(filename, 'w') as f:
             json.dump(self.results, f, indent=4)
         print(f"Report saved to {filename}")
+
 
 def create_report_entry(file_path, mime_type, checksum, words):
     return {

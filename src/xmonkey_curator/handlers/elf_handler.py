@@ -1,4 +1,5 @@
 import lief
+import os
 from ..base_handler import BaseFileHandler
 import logging
 
@@ -20,10 +21,14 @@ class ElfFileHandler(BaseFileHandler):
                     data = section.content
                     strings.extend(self._extract_strings_from_data(data))
             if not strings:
-                self.logger.warning(f"No strings extracted from {self.file_path}.")
+                self.logger.warning(
+                     f"No strings extracted from {self.file_path}."
+                     )
             return strings
         except lief.exception as e:
-            self.logger.error(f"Error processing ELF file {self.file_path}: {e}")
+            self.logger.error(
+                 f"Error processing ELF file {self.file_path}: {e}"
+                 )
             return []
 
     def _extract_strings_from_data(self, data):

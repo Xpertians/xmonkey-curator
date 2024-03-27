@@ -17,5 +17,6 @@ class TextFileHandler(BaseFileHandler):
                 words = list(set(words))
                 return words
         except Exception as e:
-            self.logger.error(f"Failed to process text file {self.file_path}: {e}")
+            self.logger.error(
+                 f"Failed to process text file {self.file_path}: {e}")
             return []
