@@ -29,7 +29,7 @@ class ArchiveLibFileHandler(BaseFileHandler):
             strings = re.compile(r'\W+', re.UNICODE).split(
                 ' '.join(rstTXT.split()))
             words = list(set(strings))
-            regex = re.compile(r'[^a-zA-Z\s_-]+')
+            regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
             words = [
                 regex.sub('', word).strip() for word in words
                 if len(regex.sub('', word).strip()) >= 5
@@ -39,7 +39,7 @@ class ArchiveLibFileHandler(BaseFileHandler):
             if strings:
                 words = strings+words
                 words = list(set(words))
-                regex = re.compile(r'[^a-zA-Z\s_-]+')
+                regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
                 words = [
                     regex.sub('', word).strip() for word in words
                     if len(regex.sub('', word).strip()) >= 5

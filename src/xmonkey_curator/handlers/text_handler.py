@@ -1,6 +1,7 @@
 import logging
 import re
 from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 
 
 class TextFileHandler(BaseFileHandler):
@@ -19,4 +20,17 @@ class TextFileHandler(BaseFileHandler):
         except Exception as e:
             self.logger.error(
                  f"Failed to process text file {self.file_path}: {e}")
+            self.logger.warning(
+                 f"No strings extracted from {self.file_path}."
+                 )
+            # Using file data
+            words = LexerUtilities.get_strings(self.file_path)
+            if words:
+                words = list(set(words))
+                regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
+                words = [
+                    regex.sub('', word).strip() for word in words
+                    if len(regex.sub('', word).strip()) >= 5
+                ]
+                return words
             return []

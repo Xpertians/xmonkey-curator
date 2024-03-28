@@ -3,6 +3,7 @@ import re
 import lief
 import logging
 from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 
 
 class SharedLibFileHandler(BaseFileHandler):
@@ -29,7 +30,7 @@ class SharedLibFileHandler(BaseFileHandler):
                 if strings:
                     words = strings+words
                     words = list(set(words))
-                    regex = re.compile(r'[^a-zA-Z\s_-]+')
+                    regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
                     words = [
                         regex.sub('', word).strip() for word in words
                         if len(regex.sub('', word).strip()) >= 5

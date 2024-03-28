@@ -21,7 +21,7 @@ class JvmFileHandler(BaseFileHandler):
         file_name = os.path.splitext(base_name)[0]
         symbols.append(file_name.lower())
         words = list(set(symbols))
-        regex = re.compile(r'[^a-zA-Z\s_-]+')
+        regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
         words = [
             regex.sub('', word).strip() for word in words
             if len(regex.sub('', word).strip()) >= 5
