@@ -4,31 +4,49 @@ import os
 import hashlib
 import ssdeep
 from os import path
+import subprocess
 
 
 class FileUtilities:
     @staticmethod
     def identify_mime_type(file_path):
         if (path.exists(file_path)):
-            mime_type, _ = mimetypes.guess_type(file_path)
-            if mime_type == "application/octet-stream":
-                mime = magic.Magic(mime=True)
-                mime_type = mime.from_file(file_path)
-                if mime_type:
-                    return mime_type
+            mime_typeA, _ = mimetypes.guess_type(file_path)
+            mime = magic.Magic(uncompress=True, mime=True)
+            mime_typeB = mime.from_file(file_path)
+            mime_type = "application/octet-stream"
+            if mime_typeA == "application/octet-stream":
+                if mime_typeB == "application/octet-stream":
+                    res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                    if res.stdout:
+                        mime_type = res.stdout.decode("utf-8")
+                        print('system:', file_path, ' to ', mime_type)
+                    else:
+                        print('file_path:', file_path, ' to octet-stream')
+                        mime_type = mime_typeB
+                elif mime_typeB:
+                    mime_type = mime_typeB
                 else:
-                    return "application/octet-stream"
-            elif mime_type:
-                return mime_type
+                    res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                    if res.stdout:
+                        mime_type = res.stdout.decode("utf-8")
+                        print('system:', file_path, ' to ', mime_type)
+                    else:
+                        print('file_path:', file_path, ' to octet-stream')
+                        mime_type = "application/octet-stream"
+            elif mime_typeA:
+                mime_type = mime_typeA
             else:
-                mime = magic.Magic(mime=True)
-                mime_type = mime.from_file(file_path)
-                if mime_type:
-                    return mime_type
+                res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                if res.stdout:
+                    mime_type = res.stdout.decode("utf-8")
+                    print('system:', file_path, ' to ', mime_type)
                 else:
-                    return "application/octet-stream"
+                    print('file_path:', file_path, ' to octet-stream')
+                    mime_type = "application/octet-stream"
+            return mime_type.strip()
         else:
-            return "err/not-found"
+            return "ERR/file-not-found"
 
     @staticmethod
     def get_file_size(file_path):
