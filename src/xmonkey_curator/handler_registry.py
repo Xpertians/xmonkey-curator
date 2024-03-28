@@ -3,10 +3,10 @@ from .handlers import TextFileHandler, ElfFileHandler, PythonFileHandler
 from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
 from .handlers import RustFileHandler, RubyFileHandler, ObjectivecFileHandler
 from .handlers import JvmFileHandler, OctetStreamFileHandler
+from .handlers import SharedLibFileHandler, ArchiveLibFileHandler
 
 
 HANDLER_REGISTRY = {
-    'application/x-executable': ElfFileHandler,
     # Plan Text and String
     'text/plain': TextFileHandler,
     'text/x-makefile': TextFileHandler,
@@ -15,11 +15,17 @@ HANDLER_REGISTRY = {
     'text/html': TextFileHandler,
     'text/xml': TextFileHandler,
     'text/csv': TextFileHandler,
+    'application/pls+xml': TextFileHandler,
+    'application/x-mpegurl': TextFileHandler,
+    'application/json': TextFileHandler,
     'text/x-tex': TextFileHandler,
     'text/vtt': TextFileHandler,
     'text/x-asm': TextFileHandler,
+    'text/x-m4': TextFileHandler,
     'text/x-shellscript': TextFileHandler,
     'text/cache-manifest': TextFileHandler,
+    'text/javascript': TextFileHandler,
+    'application/javascript': TextFileHandler,
     'application/json': TextFileHandler,
     'application/x-sh': TextFileHandler,
     'application/x-tex': TextFileHandler,
@@ -33,6 +39,7 @@ HANDLER_REGISTRY = {
     'text/x-c++': CplusFileHandler,
     'text/x-python': PythonFileHandler,
     'application/x-python-code': PythonFileHandler,
+    'text/x-script.python': PythonFileHandler,
     'text/x-perl': PerlFileHandler,
     'text/x-java-source': JavaFileHandler,
     'application/java-vm': JvmFileHandler,
@@ -44,6 +51,9 @@ HANDLER_REGISTRY = {
     'text/x-objective-c': ObjectivecFileHandler,
     # Library Specific
     'application/octet-stream': OctetStreamFileHandler,
+    'application/x-executable': ElfFileHandler,
+    'application/x-sharedlib': SharedLibFileHandler,
+    'application/x-archive': ArchiveLibFileHandler,
 }
 
 

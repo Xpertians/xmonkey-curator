@@ -20,6 +20,7 @@ EXCLUDED_MIME_TYPE_PREFIXES = [
     'image/',
     'video/',
     'audio/',
+    'inode/'
 ]
 
 EXCLUDED_MIME_TYPES = [
@@ -27,7 +28,8 @@ EXCLUDED_MIME_TYPES = [
     'application/x-font-type1',
     'application/pdf',
     'application/x-git',
-    'inode/symlink',
+    'application/pkix-attr-cert',
+    'application/msword'
 ]
 
 ARCHIVE_MIME_TYPES = [

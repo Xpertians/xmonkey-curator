@@ -11,7 +11,14 @@ class FileUtilities:
     def identify_mime_type(file_path):
         if (path.exists(file_path)):
             mime_type, _ = mimetypes.guess_type(file_path)
-            if mime_type:
+            if mime_type == "application/octet-stream":
+                mime = magic.Magic(mime=True)
+                mime_type = mime.from_file(file_path)
+                if mime_type:
+                    return mime_type
+                else:
+                    return "application/octet-stream"
+            elif mime_type:
                 return mime_type
             else:
                 mime = magic.Magic(mime=True)
@@ -21,7 +28,7 @@ class FileUtilities:
                 else:
                     return "application/octet-stream"
         else:
-            return "application/octet-stream"
+            return "err/not-found"
 
     @staticmethod
     def get_file_size(file_path):

@@ -9,3 +9,5 @@ from .rust_handler import RustFileHandler
 from .ruby_handler import RubyFileHandler
 from .objectivec_handler import ObjectivecFileHandler
 from .octetstream_handler import OctetStreamFileHandler
+from .sharedlib_handler import SharedLibFileHandler
+from .archivelib_handler import ArchiveLibFileHandler

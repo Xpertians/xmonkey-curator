@@ -4,7 +4,7 @@ import os
 
 class BaseFileHandler:
 
-    MAX_SIZE = 2 * 1024 * 1024
+    MAX_SIZE = 5 * 1024 * 1024
 
     def __init__(self, file_path):
         self.logger = logging.getLogger(self.__class__.__name__)
