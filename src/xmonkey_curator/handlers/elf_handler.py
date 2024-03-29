@@ -1,7 +1,9 @@
-import lief
 import os
-from ..base_handler import BaseFileHandler
+import re
+import lief
 import logging
+from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 
 
 class ElfFileHandler(BaseFileHandler):
@@ -10,24 +12,29 @@ class ElfFileHandler(BaseFileHandler):
         self.logger = logging.getLogger(__name__)
 
     def extract_words(self):
-        """Extract strings from an ELF file using LIEF."""
         if not self.is_eligible():
             return []
         try:
             elf = lief.parse(self.file_path)
-            strings = []
+            words = []
             for section in elf.sections:
                 if section.name == ".rodata":
                     data = section.content
-                    strings.extend(self._extract_strings_from_data(data))
-            if not strings:
+                    words = self._extract_strings_from_data(data)
+            words = LexerUtilities.clean_strings(words)
+            if not words:
                 self.logger.warning(
                      f"No strings extracted from {self.file_path}."
                      )
-            return strings
-        except lief.exception as e:
+                # Using file data
+                strings = LexerUtilities.get_strings(self.file_path)
+                if strings:
+                    words = strings+words
+                    words = LexerUtilities.clean_strings(words)
+            return words
+        except Exception as e:
             self.logger.error(
-                 f"Error processing ELF file {self.file_path}: {e}"
+                 f"Error processing Shared Lib file {self.file_path}: {e}"
                  )
             return []
 

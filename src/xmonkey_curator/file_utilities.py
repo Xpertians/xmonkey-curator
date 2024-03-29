@@ -17,7 +17,10 @@ class FileUtilities:
             mime_type = "application/octet-stream"
             if mime_typeA == "application/octet-stream":
                 if mime_typeB == "application/octet-stream":
-                    res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                    res = subprocess.run(
+                        ["file", "--mime-type", "--brief", file_path],
+                        stdout=subprocess.PIPE
+                    )
                     if res.stdout:
                         mime_type = res.stdout.decode("utf-8")
                     else:
@@ -25,7 +28,10 @@ class FileUtilities:
                 elif mime_typeB:
                     mime_type = mime_typeB
                 else:
-                    res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                    res = subprocess.run(
+                        ["file", "--mime-type", "--brief", file_path],
+                        stdout=subprocess.PIPE
+                    )
                     if res.stdout:
                         mime_type = res.stdout.decode("utf-8")
                     else:
@@ -33,7 +39,10 @@ class FileUtilities:
             elif mime_typeA:
                 mime_type = mime_typeA
             else:
-                res = subprocess.run(["file", "--mime-type", "--brief", file_path], stdout=subprocess.PIPE)
+                res = subprocess.run(
+                    ["file", "--mime-type", "--brief", file_path],
+                    stdout=subprocess.PIPE
+                )
                 if res.stdout:
                     mime_type = res.stdout.decode("utf-8")
                 else:

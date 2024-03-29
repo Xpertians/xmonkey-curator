@@ -26,11 +26,6 @@ class TextFileHandler(BaseFileHandler):
             # Using file data
             words = LexerUtilities.get_strings(self.file_path)
             if words:
-                words = list(set(words))
-                regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
-                words = [
-                    regex.sub('', word).strip() for word in words
-                    if len(regex.sub('', word).strip()) >= 5
-                ]
+                words = LexerUtilities.clean_strings(words)
                 return words
             return []

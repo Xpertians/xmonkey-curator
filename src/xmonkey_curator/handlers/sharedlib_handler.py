@@ -29,12 +29,7 @@ class SharedLibFileHandler(BaseFileHandler):
                 strings = LexerUtilities.get_strings(self.file_path)
                 if strings:
                     words = strings+words
-                    words = list(set(words))
-                    regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
-                    words = [
-                        regex.sub('', word).strip() for word in words
-                        if len(regex.sub('', word).strip()) >= 5
-                    ]
+                    words = LexerUtilities.clean_strings(words)
             return words
         except Exception as e:
             self.logger.error(
