@@ -2,6 +2,7 @@ import re
 import logging
 from os import path
 from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 
 
 class OctetStreamFileHandler(BaseFileHandler):
@@ -27,12 +28,7 @@ class OctetStreamFileHandler(BaseFileHandler):
                 if len(text) >= min_length:
                     strings.append(text)
                 text = ''
-            words = list(set(strings))
-            regex = re.compile(r'[^a-zA-Z\s_-]+')
-            words = [
-                regex.sub('', word).strip() for word in words
-                if len(regex.sub('', word).strip()) >= 5
-            ]
+            words = LexerUtilities.clean_strings(strings)
             return words
         else:
             return []

@@ -1,6 +1,7 @@
 import logging
 import re
 from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 
 
 class TextFileHandler(BaseFileHandler):
@@ -19,4 +20,12 @@ class TextFileHandler(BaseFileHandler):
         except Exception as e:
             self.logger.error(
                  f"Failed to process text file {self.file_path}: {e}")
+            self.logger.warning(
+                 f"No strings extracted from {self.file_path}."
+                 )
+            # Using file data
+            words = LexerUtilities.get_strings(self.file_path)
+            if words:
+                words = LexerUtilities.clean_strings(words)
+                return words
             return []

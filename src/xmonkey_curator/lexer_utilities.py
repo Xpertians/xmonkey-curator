@@ -32,8 +32,37 @@ class LexerUtilities:
                 base_name = os.path.basename(value)
                 file_name, _ = os.path.splitext(base_name)
                 symbols.append(file_name.lower())
-        words = list(set(symbols))
-        regex = re.compile(r'[^a-zA-Z\s_-]+')
+        words = LexerUtilities.clean_strings(symbols)
+        return words
+
+    @staticmethod
+    def get_strings(file_path):
+        min_length = 5
+        strings = []
+        with open(file_path, 'rb') as file:
+            content = file.read()
+        text = ''
+        for byte in content:
+            try:
+                char = byte.to_bytes(1, 'big').decode('utf-8')
+                if char.isprintable():
+                    text += char
+                    continue
+            except UnicodeDecodeError:
+                pass
+            if len(text) >= min_length:
+                strings.append(text)
+            text = ''
+        words = LexerUtilities.clean_strings(strings)
+        return words
+
+    @staticmethod
+    def clean_strings(strings):
+        # create a set for UNIQ
+        words = list(set(strings))
+        # Alpha only
+        regex = re.compile(r'[^a-zA-Z0-9\s_-]+')
+        # Regex and MinLength of 5 chars
         words = [
             regex.sub('', word).strip() for word in words
             if len(regex.sub('', word).strip()) >= 5
