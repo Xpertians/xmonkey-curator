@@ -11,3 +11,4 @@ from .objectivec_handler import ObjectivecFileHandler
 from .octetstream_handler import OctetStreamFileHandler
 from .sharedlib_handler import SharedLibFileHandler
 from .archivelib_handler import ArchiveLibFileHandler
+from .machos_handler import MachOSFileHandler

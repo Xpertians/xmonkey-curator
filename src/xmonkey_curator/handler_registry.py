@@ -4,6 +4,7 @@ from .handlers import PerlFileHandler, CplusFileHandler, JavaFileHandler
 from .handlers import RustFileHandler, RubyFileHandler, ObjectivecFileHandler
 from .handlers import JvmFileHandler, OctetStreamFileHandler
 from .handlers import SharedLibFileHandler, ArchiveLibFileHandler
+from .handlers import MachOSFileHandler
 
 
 HANDLER_REGISTRY = {
@@ -54,6 +55,7 @@ HANDLER_REGISTRY = {
     'application/x-executable': ElfFileHandler,
     'application/x-sharedlib': SharedLibFileHandler,
     'application/x-archive': ArchiveLibFileHandler,
+    'application/x-mach-binary': MachOSFileHandler,
 }
 
 
