@@ -204,5 +204,6 @@ def process_file(file_path, results, archive_checksum=None,
             )
             return None
 
+
 if __name__ == '__main__':
     scan()
