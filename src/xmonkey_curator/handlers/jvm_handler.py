@@ -2,6 +2,7 @@ import re
 import os
 import logging
 from ..base_handler import BaseFileHandler
+from ..lexer_utilities import LexerUtilities
 from pygments import lex
 from pygments.lexers import get_lexer_by_name
 
