@@ -1,11 +1,23 @@
+import os
+import re        
 from setuptools import setup, find_packages
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+def read_version():
+    version_file_path = os.path.join(here, 'src', 'xmonkey_curator', '__version__.py')
+    with open(version_file_path, encoding='utf-8') as f:
+        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M)
+        if version_match:
+            return version_match.group(1)
+        raise RuntimeError("Unable to find version string.")
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name='xmonkey-curator',
-    version='0.1.3',
+    version=read_version(),
     description="Automated OSS curation scanner",
     long_description=long_description,
     long_description_content_type='text/x-rst',
