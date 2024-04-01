@@ -89,7 +89,7 @@ def scan(path, force_text, recursive_extraction, export_symbols, print_report):
         report_generator.save_report('scan_report.json')
 
 
-def process_file(file_path,  
+def process_file(file_path,
                  results,
                  archive_checksum=None,
                  force_text=False,
