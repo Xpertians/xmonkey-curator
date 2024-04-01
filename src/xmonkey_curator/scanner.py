@@ -47,11 +47,15 @@ ARCHIVE_MIME_TYPES = [
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--force-text', '-t', is_flag=True,
               help="Force the use of StringExtract for all files.")
-@click.option('--skip-extraction', '-se', is_flag=True,
-              help="Skip extracting files from archives.")
+@click.option('--recursive-extraction', '-r', is_flag=True,
+              help="Extracting archives files.")
+@click.option('--export-symbols', '-s', is_flag=True,
+              help="Include words in the final report.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report instead of saving to JSON.")
-def scan(path, force_text, skip_extraction, print_report):
+def scan(path, force_text, recursive_extraction, export_symbols, print_report):
+    if not recursive_extraction:
+        export_symbols = False
     results = []
     if os.path.isdir(path):
         logger.info(f"Scanning directory: {path}")
@@ -62,12 +66,12 @@ def scan(path, force_text, skip_extraction, print_report):
         ]
         for file_path in tqdm(all_files, desc="Scanning files"):
             result = process_file(file_path, results, '',
-                                  force_text, skip_extraction)
+                                  force_text, recursive_extraction)
             if result:
                 results.append(result)
     else:
         logger.info(f"Scanning file: {path}")
-        result = process_file(path, results, '', force_text, skip_extraction)
+        result = process_file(path, results, '', force_text, recursive_extraction)
         if result:
             results.append(result)
     report_generator = ReportGenerator(results)
@@ -78,7 +82,7 @@ def scan(path, force_text, skip_extraction, print_report):
 
 
 def process_file(file_path, results, archive_checksum=None,
-                 force_text=False, skip_extraction=False):
+                 force_text=False, recursive_extraction=False):
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
     hash_md5, hash_sha1, hash_sha256, hash_ssdeep = (
@@ -96,7 +100,7 @@ def process_file(file_path, results, archive_checksum=None,
                 )
         return None
     elif mime_type in ARCHIVE_MIME_TYPES:
-        if not skip_extraction:
+        if recursive_extraction:
             handler = ArchiveHandler(file_path)
             archive_checksum = hash_md5
             handler.process(
@@ -105,7 +109,7 @@ def process_file(file_path, results, archive_checksum=None,
                     results,
                     archive_checksum,
                     force_text,
-                    skip_extraction
+                    recursive_extraction
                 )
             )
         result = {
@@ -171,7 +175,7 @@ def process_file(file_path, results, archive_checksum=None,
                         results,
                         archive_checksum,
                         force_text,
-                        skip_extraction
+                        recursive_extraction
                     )
                 )
             else:
