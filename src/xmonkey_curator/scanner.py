@@ -66,12 +66,20 @@ def scan(path, force_text, recursive_extraction, export_symbols, print_report):
         ]
         for file_path in tqdm(all_files, desc="Scanning files"):
             result = process_file(file_path, results, '',
-                                  force_text, recursive_extraction)
+                                  force_text, recursive_extraction,
+                                  export_symbols)
             if result:
                 results.append(result)
     else:
         logger.info(f"Scanning file: {path}")
-        result = process_file(path, results, '', force_text, recursive_extraction)
+        result = process_file(
+            path,
+            results,
+            '',
+            force_text,
+            recursive_extraction,
+            export_symbols
+        )
         if result:
             results.append(result)
     report_generator = ReportGenerator(results)
@@ -81,8 +89,12 @@ def scan(path, force_text, recursive_extraction, export_symbols, print_report):
         report_generator.save_report('scan_report.json')
 
 
-def process_file(file_path, results, archive_checksum=None,
-                 force_text=False, recursive_extraction=False):
+def process_file(file_path,  
+                 results,
+                 archive_checksum=None,
+                 force_text=False,
+                 recursive_extraction=False,
+                 export_symbols=False):
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
     hash_md5, hash_sha1, hash_sha256, hash_ssdeep = (
@@ -109,7 +121,8 @@ def process_file(file_path, results, archive_checksum=None,
                     results,
                     archive_checksum,
                     force_text,
-                    recursive_extraction
+                    recursive_extraction,
+                    export_symbols
                 )
             )
         result = {
@@ -123,8 +136,9 @@ def process_file(file_path, results, archive_checksum=None,
                 "sha256": hash_sha256
             },
             'is_archive': True,
-            'words': '',
         }
+        if export_symbols:
+            result['words'] = ''
         results.append(result)
     elif force_text:
         handler_class = get_handler("text/plain")
@@ -142,8 +156,9 @@ def process_file(file_path, results, archive_checksum=None,
                     "sha256": hash_sha256
                 },
                 'is_archive': False,
-                'words': words,
             }
+            if export_symbols:
+                result['words'] = handler.extract_words()
             if archive_checksum:
                 result['parent_checksum'] = archive_checksum
             results.append(result)
@@ -165,8 +180,9 @@ def process_file(file_path, results, archive_checksum=None,
                         "sha256": hash_sha256
                     },
                     'is_archive': True,
-                    'words': '',
                 }
+                if export_symbols:
+                    result['words'] = ''
                 results.append(result)
                 archive_checksum = checksum
                 handler.process(
@@ -175,16 +191,11 @@ def process_file(file_path, results, archive_checksum=None,
                         results,
                         archive_checksum,
                         force_text,
-                        recursive_extraction
+                        recursive_extraction,
+                        export_symbols
                     )
                 )
             else:
-                words = handler.extract_words()
-                if len(words) == 0:
-                    logger.info(
-                        f"No words returned for MIME type: {mime_type} "
-                        f"for file {file_path}"
-                    )
                 result = {
                     'file_path': file_path,
                     'mime_type': mime_type,
@@ -196,8 +207,15 @@ def process_file(file_path, results, archive_checksum=None,
                         "sha256": hash_sha256
                     },
                     'is_archive': False,
-                    'words': words,
                 }
+                if export_symbols:
+                    words = handler.extract_words()
+                    if len(words) == 0:
+                        logger.info(
+                            f"No words returned for MIME type: {mime_type} "
+                            f"for file {file_path}"
+                        )
+                    result['words'] = words
                 if archive_checksum:
                     result['parent_checksum'] = archive_checksum
                 results.append(result)
