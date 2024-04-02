@@ -12,11 +12,6 @@ class Signature:
         self.license = license
         self.symbols = symbols or []
 
-    def matches(self, text):
-        if not any(re.search(pattern, text, re.IGNORECASE) for pattern in self.symbols):
-            return False
-        return True
-
 
 class SymbolsHandler:
 
@@ -43,7 +38,8 @@ class SymbolsHandler:
         matched_results = []
         for entry in results:
             if "words" in entry:
-                entry_text = ''.join(entry['words'])
+                strings = list(set(entry['words']))
+                entry_text = ''.join(strings)
                 for signature in self.signatures:
                     matched_symbols = [pattern for pattern in signature.symbols if re.search(pattern, entry_text, re.IGNORECASE)]
                     if matched_symbols:
