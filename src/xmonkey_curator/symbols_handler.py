@@ -3,11 +3,13 @@ import json
 import argparse
 import pkg_resources
 
+
 class TrieNode:
     def __init__(self):
         self.children = {}
         self.isEndOfWord = False
         self.signatures = []
+
 
 class Trie:
     def __init__(self):
@@ -34,12 +36,14 @@ class Trie:
                 node = self.root
         return list(set(matches))
 
+
 class Signature:
     def __init__(self, package, publisher, license, symbols=None):
         self.package = package
         self.publisher = publisher
         self.license = license
         self.symbols = symbols or []
+
 
 class SymbolsHandler:
     def __init__(self):
@@ -51,10 +55,12 @@ class SymbolsHandler:
         resource_package = __name__
         resource_path = '/'.join(('signatures', ''))
         if pkg_resources.resource_isdir(resource_package, resource_path):
-            sign_files = pkg_resources.resource_listdir(resource_package, resource_path)
+            sign_files = pkg_resources.resource_listdir(
+                resource_package, resource_path)
             for file_name in sign_files:
                 if file_name.endswith('.json'):
-                    file_path = pkg_resources.resource_filename(resource_package, f'signatures/{file_name}')
+                    file_path = pkg_resources.resource_filename(
+                        resource_package, f'signatures/{file_name}')
                     with open(file_path, 'r') as file:
                         sign_def = json.load(file)
                         signature = Signature(sign_def['package'],
@@ -73,7 +79,11 @@ class SymbolsHandler:
                 entry_text = ''.join(strings)
                 matched_signatures = self.trie.search(entry_text)
                 for signature in matched_signatures:
-                    matched_symbols = [symbol for symbol in signature.symbols if symbol in entry_text]
+                    matched_symbols = [
+                        symbol
+                        for symbol in signature.symbols
+                        if symbol in entry_text
+                    ]
                     if matched_symbols:
                         matched_info = {
                             'file_path': entry['file_path'],
