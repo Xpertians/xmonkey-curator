@@ -1,0 +1,10 @@
+{
+  "name": "LGPL-2.1",
+  "description": "Rule to identify GNU Lesser General Public License version 2.1, excluding GPL-2.0, GPL-3.0, and AGPL.",
+  "include_identifiers": [
+    "Lesser", "Library General Public License", "version 2.1"
+  ],
+  "exclude_identifiers": [
+    "version 3", "Affero", "Apache"
+  ]
+}

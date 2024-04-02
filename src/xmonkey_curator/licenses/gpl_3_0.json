@@ -1,0 +1,10 @@
+{
+  "name": "GPL-3.0",
+  "description": "Rule to identify GNU General Public License version 3, excluding GPL-2.0 and AGPL.",
+  "include_identifiers": [
+    "patent", "version 3", "GNU General Public License", "GPL"
+  ],
+  "exclude_identifiers": [
+    "test", "toto"
+  ]
+}

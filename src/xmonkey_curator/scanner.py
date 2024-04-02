@@ -7,6 +7,7 @@ from xmonkey_curator.handler_registry import get_handler
 from xmonkey_curator.report_generator import ReportGenerator
 from xmonkey_curator.handlers.archive_handler import ArchiveHandler
 from xmonkey_curator.file_utilities import FileUtilities
+from xmonkey_curator.symbols_handler import SymbolsHandler
 
 
 logging.basicConfig(
@@ -82,6 +83,8 @@ def scan(path, force_text, recursive_extraction, export_symbols, print_report):
         )
         if result:
             results.append(result)
+    sym_matcher = SymbolsHandler()
+    sym_matcher.search(results)
     report_generator = ReportGenerator(results)
     if print_report:
         report_generator.print_report()

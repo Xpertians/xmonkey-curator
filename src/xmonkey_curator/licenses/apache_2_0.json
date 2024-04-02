@@ -1,0 +1,10 @@
+{
+  "name": "Apache-2.0",
+  "description": "Rule to identify Apache License version 2.0, excluding GPL-2.0, GPL-3.0, LGPL-2.1, and AGPL.",
+  "include_identifiers": [
+    "Apache License", "Version 2.0", "without warranty"
+  ],
+  "exclude_identifiers": [
+    "GNU General Public License", "Lesser", "Affero"
+  ]
+}
