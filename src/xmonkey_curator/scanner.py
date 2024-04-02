@@ -52,11 +52,15 @@ ARCHIVE_MIME_TYPES = [
               help="Extracting archives files.")
 @click.option('--export-symbols', '-s', is_flag=True,
               help="Include words in the final report.")
+@click.option('--match-symbols', '-m', is_flag=True,
+              help="Match symbols against signatures.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report instead of saving to JSON.")
-def scan(path, force_text, recursive_extraction, export_symbols, print_report):
+def scan(path, force_text, recursive_extraction, export_symbols, match_symbols, print_report):
     if not recursive_extraction:
         export_symbols = False
+    if not export_symbols:
+        match_symbols = False
     results = []
     if os.path.isdir(path):
         logger.info(f"Scanning directory: {path}")
@@ -83,8 +87,11 @@ def scan(path, force_text, recursive_extraction, export_symbols, print_report):
         )
         if result:
             results.append(result)
-    sym_matcher = SymbolsHandler()
-    sym_matcher.search(results)
+    if match_symbols:
+        sym_matcher = SymbolsHandler()
+        matches = sym_matcher.search(results)
+        results = results + matches
+        
     report_generator = ReportGenerator(results)
     if print_report:
         report_generator.print_report()
