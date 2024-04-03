@@ -47,7 +47,7 @@ ARCHIVE_MIME_TYPES = [
 @click.command()
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--force-text', '-t', is_flag=True,
-              help="Force the use of StringExtract for all files.")
+              help="Force using StringExtract for all files.")
 @click.option('--recursive-extraction', '-r', is_flag=True,
               help="Extracting archives files.")
 @click.option('--export-symbols', '-s', is_flag=True,
@@ -55,7 +55,7 @@ ARCHIVE_MIME_TYPES = [
 @click.option('--match-symbols', '-m', is_flag=True,
               help="Match symbols against signatures.")
 @click.option('--print-report', '-p', is_flag=True,
-              help="Print the report instead of saving to JSON.")
+              help="Print the report to screen.")
 def scan(path,
          force_text,
          recursive_extraction,
