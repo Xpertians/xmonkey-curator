@@ -1,0 +1,14 @@
+{
+    "publisher": "xmonkey-curator",
+    "updated": "2024-04-03",
+    "package": "FFMPEG",
+    "license": "Apache-2.0",
+	"workflow": "False",
+	"classifier": "FileNameMatch",
+    "configuration": [
+        "copyright",
+        "license",
+        "third-party",
+        "notices"
+    ]
+}

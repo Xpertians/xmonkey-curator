@@ -48,6 +48,7 @@ setup(
     },
     include_package_data=True,
     package_data={
+        'xmonkey_curator': ['signatures/*.json', 'licenses/*.json', 'rules/*.json'],
     },
     test_suite="tests",
     classifiers=[
