@@ -6,7 +6,10 @@ from itertools import combinations
 
 
 class Rule:
-    def __init__(self, package, publisher, license, workflow, classifier, configuration=None):
+    def __init__(
+        self, package, publisher, license, workflow,
+        classifier, configuration=None
+    ):
         self.package = package
         self.publisher = publisher
         self.license = license
@@ -14,25 +17,21 @@ class Rule:
         self.classifier = classifier
         self.configuration = configuration or []
 
+
 class FileNameMatch:
     def __init__(self, configuration):
-        self.results = []
+        self.container = []
         self.filepaths = []
         self.configuration = configuration
 
-    def substrings(self, word):
-        for i, j in combinations(range(len(word) + 1), 2):
-            yield word[i : j]
-
     def classifier(self, results):
         for result in results:
-            self.filepaths.append(result['file_path'])
-        self.word_set = set().union(*map(self.substrings, self.filepaths))
-        for configStr in self.configuration:
-            if configStr in self.word_set:
-                # This need to do something
-                # AlKamoD
-                print(configStr)
+            for configStr in self.configuration:
+                if configStr in result['file_path']:
+                    result['FileNameMatch'] = configStr
+            self.container.append(result)
+        return self.container
+
 
 class RulesHandler:
     def __init__(self):
@@ -54,7 +53,14 @@ class RulesHandler:
                         resource_package, f'rules/{file_name}')
                     with open(file_path, 'r') as file:
                         rule_def = json.load(file)
-                        rule = Rule(rule_def['package'], rule_def['publisher'], rule_def['license'], rule_def['workflow'], rule_def['classifier'], rule_def.get('configuration', []))
+                        rule = Rule(
+                            rule_def['package'],
+                            rule_def['publisher'],
+                            rule_def['license'],
+                            rule_def['workflow'],
+                            rule_def['classifier'],
+                            rule_def.get('configuration', [])
+                        )
                         self.rules.append(rule)
 
     def execute(self, results):
@@ -63,5 +69,4 @@ class RulesHandler:
                 print('workflow still not implemented')
             else:
                 obj = self.classmap[rule.classifier](rule.configuration)
-                obj.classifier(results)
-        return ''
+                return obj.classifier(results)

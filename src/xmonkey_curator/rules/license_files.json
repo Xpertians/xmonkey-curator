@@ -9,7 +9,6 @@
         "copyright",
         "license",
         "third-party",
-        "notices",
-		"curator"
+        "notices"
     ]
 }

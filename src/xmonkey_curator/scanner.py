@@ -94,7 +94,7 @@ def scan(path,
         if result:
             results.append(result)
     rules = RulesHandler()
-    rules.execute(results)
+    results = rules.execute(results)
     if match_symbols:
         sym_matcher = SymbolsHandler()
         matches = sym_matcher.search(results)
