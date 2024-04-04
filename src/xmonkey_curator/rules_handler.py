@@ -52,12 +52,7 @@ class RulesHandler:
                         resource_package, f'rules/{file_name}')
                     with open(file_path, 'r') as file:
                         rule_def = json.load(file)
-                        rule = Rule(rule_def['package'],
-                                              rule_def['publisher'],
-                                              rule_def['license'],
-                                              rule_def['workflow'],
-                                              rule_def['classifier'],
-                                              rule_def.get('configuration', []))
+                        rule = Rule(rule_def['package'], rule_def['publisher'], rule_def['license'], rule_def['workflow'], rule_def['classifier'], rule_def.get('configuration', []))
                         self.rules.append(rule)
 
     def execute(self, results):
