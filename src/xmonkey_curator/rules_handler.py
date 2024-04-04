@@ -2,21 +2,43 @@ import os
 import json
 import argparse
 import pkg_resources
+from itertools import combinations
 
 
 class Rule:
-    def __init__(self, package, publisher, license, worflow, symbols=None):
+    def __init__(self, package, publisher, license, workflow, classifier, configuration=None):
         self.package = package
         self.publisher = publisher
         self.license = license
-        self.worflow = worflow
-        self.symbols = symbols or []
+        self.workflow = workflow
+        self.classifier = classifier
+        self.configuration = configuration or []
 
+class FileNameMatch:
+    def __init__(self, configuration):
+        self.results = []
+        self.filepaths = []
+        self.configuration = configuration
+
+    def substrings(self, word):
+        for i, j in combinations(range(len(word) + 1), 2):
+            yield word[i : j]
+
+    def classifier(self, results):
+        for result in results:
+            self.filepaths.append(result['file_path'])
+        self.word_set = set().union(*map(self.substrings, self.filepaths))
+        for configStr in self.configuration:
+            if configStr in self.word_set:
+                print(configStr)
 
 class RulesHandler:
     def __init__(self):
         self.rules = []
         self.load_rules_from_package()
+        self.classmap = {
+          'FileNameMatch': FileNameMatch
+        }
 
     def load_rules_from_package(self):
         resource_package = __name__
@@ -32,14 +54,17 @@ class RulesHandler:
                         rule_def = json.load(file)
                         rule = Rule(rule_def['package'],
                                               rule_def['publisher'],
-                                              rule_def['worflow'],
                                               rule_def['license'],
-                                              rule_def.get('symbols', []))
+                                              rule_def['workflow'],
+                                              rule_def['classifier'],
+                                              rule_def.get('configuration', []))
                         self.rules.append(rule)
-                        for symbol in rule.symbols:
-                            #here is the action
-                            print(symbol, signature)
 
     def execute(self, results):
-        print(results)
+        for rule in self.rules:
+            if 'True' in rule.workflow:
+                print('workflow still not implemented')
+            else:
+                obj = self.classmap[rule.classifier](rule.configuration)
+                obj.classifier(results)
         return ''
