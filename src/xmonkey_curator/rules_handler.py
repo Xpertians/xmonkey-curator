@@ -30,6 +30,8 @@ class FileNameMatch:
         self.word_set = set().union(*map(self.substrings, self.filepaths))
         for configStr in self.configuration:
             if configStr in self.word_set:
+                # This need to do something
+                # AlKamoD
                 print(configStr)
 
 class RulesHandler:
