@@ -9,6 +9,7 @@ from xmonkey_curator.handlers.archive_handler import ArchiveHandler
 from xmonkey_curator.file_utilities import FileUtilities
 from xmonkey_curator.symbols_handler import SymbolsHandler
 from xmonkey_curator.rules_handler import RulesHandler
+from xmonkey_curator.signatures_handler import SignatureUpdater
 
 
 logging.basicConfig(
