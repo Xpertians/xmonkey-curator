@@ -3,24 +3,38 @@ import os
 import json
 import pkg_resources
 
+
 class SignatureUpdater:
+
     @staticmethod
-    def load_etags(etags_file):
-        if os.path.exists(etags_file):
-            with open(etags_file, 'r') as file:
+    def get_etags_file_path():
+        resource_package = __name__
+        package_path = pkg_resources.resource_filename(resource_package, '')
+        etags_file_path = os.path.join(package_path, 'etags.json')
+        return etags_file_path
+
+    @staticmethod
+    def load_etags():
+        etags_file_path = SignatureUpdater.get_etags_file_path()
+        if os.path.exists(etags_file_path):
+            with open(etags_file_path, 'r') as file:
                 return json.load(file)
         return {}
 
     @staticmethod
-    def save_etags(etags, etags_file):
-        with open(etags_file, 'w') as file:
+    def save_etags(etags):
+        etags_file_path = SignatureUpdater.get_etags_file_path()
+        with open(etags_file_path, 'w') as file:
             json.dump(etags, file)
 
     @staticmethod
-    def fetch_and_update_signatures(repo_owner, repo_name, signatures_path, resource_package, etags_file='etags.json'):
-        etags = SignatureUpdater.load_etags(etags_file)
-
-        api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{signatures_path}"
+    def fetch_and_update_signatures(repo_owner, repo_name, signatures_path):
+        etags = SignatureUpdater.load_etags()
+        resource_package = __name__
+        api_url = (
+            f"https://api.github.com/repos/{repo_owner}/"
+            f"{repo_name}/contents/{signatures_path}"
+        )
         response = requests.get(api_url)
         files = response.json()
 
@@ -30,7 +44,9 @@ class SignatureUpdater:
                 if file['name'] in etags:
                     headers['If-None-Match'] = etags[file['name']]
 
-                file_response = requests.get(file['download_url'], headers=headers)
+                file_response = requests.get(
+                    file['download_url'], headers=headers
+                )
                 if file_response.status_code == 304:
                     print(f"No update needed for {file['name']}")
                     continue
@@ -38,13 +54,11 @@ class SignatureUpdater:
                 etags[file['name']] = file_response.headers.get('ETag')
                 file_content = file_response.content
 
-                file_path = pkg_resources.resource_filename(resource_package, f'signatures/{file["name"]}')
+                file_path = pkg_resources.resource_filename(
+                    resource_package, f'signatures/{file["name"]}')
 
                 with open(file_path, 'wb') as f:
                     f.write(file_content)
                 print(f"Updated {file['name']}")
 
-        SignatureUpdater.save_etags(etags, etags_file)
-
-# Usage example, ensure to replace placeholders appropriately
-# SignatureUpdater.fetch_and_update_signatures('yourGitHubUsername', 'yourRepoName', 'path/to/signatures', 'your_package_name')
+        SignatureUpdater.save_etags(etags)

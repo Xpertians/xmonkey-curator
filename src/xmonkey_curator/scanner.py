@@ -46,7 +46,12 @@ ARCHIVE_MIME_TYPES = [
 ]
 
 
-@click.command()
+@click.group()
+def cli():
+    pass
+
+
+@cli.command(help="Scan target files using selected options")
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--force-text', '-t', is_flag=True,
               help="Force using StringExtract for all files.")
@@ -105,6 +110,14 @@ def scan(path,
         report_generator.print_report()
     else:
         report_generator.save_report('scan_report.json')
+
+
+@cli.command(name='update', help="Update local signature files")
+def update_signatures_command():
+    SignatureUpdater.fetch_and_update_signatures(
+        'Xpertians', 'BSA-Signatures-Experimental', 'signatures'
+    )
+    click.echo("Signatures updated successfully.")
 
 
 def process_file(file_path,
@@ -246,4 +259,4 @@ def process_file(file_path,
 
 
 if __name__ == '__main__':
-    scan()
+    cli()
