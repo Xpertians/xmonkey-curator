@@ -37,13 +37,14 @@ setup(
         'tqdm',
         'rpmfile',
         'zstandard',
+        'requests',
     ],
     extras_require={
         'test': ['pytest'],
     },
     entry_points={
         'console_scripts': [
-            'xmonkey-curator=xmonkey_curator.scanner:scan',
+            'xmonkey-curator=xmonkey_curator.scanner:cli',
         ],
     },
     include_package_data=True,
