@@ -74,6 +74,7 @@ def scan(path,
     if not export_symbols:
         match_symbols = False
     results = []
+    report = {}
     if os.path.isdir(path):
         logger.info(f"Scanning directory: {path}")
         all_files = [
@@ -99,13 +100,16 @@ def scan(path,
         )
         if result:
             results.append(result)
+    report['scan_results'] = results
     rules = RulesHandler()
-    results = rules.execute(results)
+    ruleset_results = rules.execute(results)
+    if ruleset_results:
+        report['ruleset_results'] = ruleset_results
     if match_symbols:
         sym_matcher = SymbolsHandler()
         matches = sym_matcher.search(results)
-        results = results + matches
-    report_generator = ReportGenerator(results)
+        report['symbols_matching'] = matches
+    report_generator = ReportGenerator(report)
     if print_report:
         report_generator.print_report()
     else:
