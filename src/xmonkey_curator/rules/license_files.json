@@ -9,6 +9,7 @@
         "copyright",
         "license",
         "third-party",
-        "notices"
+        "notices",
+        "COPYING"
     ]
 }
