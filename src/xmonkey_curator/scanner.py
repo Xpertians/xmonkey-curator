@@ -102,7 +102,9 @@ def scan(path,
             results.append(result)
     report['scan_results'] = results
     rules = RulesHandler()
-    report['ruleset_results'] = rules.execute(results)
+    ruleset_results = rules.execute(results)
+    if ruleset_results:
+        report['ruleset_results'] = ruleset_results
     if match_symbols:
         sym_matcher = SymbolsHandler()
         matches = sym_matcher.search(results)
