@@ -26,10 +26,15 @@ class FileNameMatch:
 
     def classifier(self, results):
         for result in results:
+            entry = {}
             for configStr in self.configuration:
-                if configStr in result['file_path']:
-                    result['FileNameMatch'] = configStr
-            self.container.append(result)
+                configStr = configStr.lower()
+                if configStr in result['file_path'].lower():
+                    entry['file_path'] = result['file_path']
+                    entry['hashes'] = result['hashes']
+                    entry['parent_checksum'] = result['parent_checksum']
+                    entry['FileNameMatch'] = configStr
+                    self.container.append(entry)
         return self.container
 
 
