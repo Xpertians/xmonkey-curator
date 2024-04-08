@@ -60,19 +60,20 @@ class FileUtilities:
 
     @staticmethod
     def calculate_hashes(file_path):
-        if (path.exists(file_path)):
-            hash_md5 = hashlib.md5()
-            hash_sha256 = hashlib.sha256()
-            hash_sha1 = hashlib.sha1()
-            hash_ssdeep = ''
-            with open(file_path, "rb") as f:
-                file_content = f.read()
-                hash_ssdeep = ssdeep.hash(file_content)
-                for chunk in iter(lambda: f.read(4096), b""):
-                    hash_md5.update(chunk)
-                    hash_sha256.update(chunk)
-                    hash_sha1.update(chunk)
-            return (hash_md5.hexdigest(), hash_sha1.hexdigest(),
-                    hash_sha256.hexdigest(), hash_ssdeep)
-        else:
+        if not path.exists(file_path):
             return '', '', '', ''
+        hash_sha256 = hashlib.sha256()
+        hash_sha1 = hashlib.sha1()
+        hash_md5 = hashlib.md5()
+        file_content = b''
+        with open(file_path, 'rb') as f:
+            while chunk := f.read(8192):
+                hash_sha256.update(chunk)
+                hash_sha1.update(chunk)
+                hash_md5.update(chunk)
+                file_content += chunk
+        hash_ssdeep = ssdeep.hash(file_content)
+        f_sha256 = hash_sha256.hexdigest()
+        f_sha1 = hash_sha1.hexdigest()
+        f_md5 = hash_md5.hexdigest()
+        return f_md5, f_sha1, f_sha256, hash_ssdeep
