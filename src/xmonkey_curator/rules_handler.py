@@ -29,7 +29,8 @@ class FileNameMatch:
             entry = {}
             for configStr in self.configuration:
                 configStr = configStr.lower()
-                if configStr in result['file_path'].lower():
+                file_name = os.path.basename(result['file_path']).lower()
+                if configStr in file_name:
                     entry['file_path'] = result['file_path']
                     entry['hashes'] = result['hashes']
                     entry['parent_checksum'] = result['parent_checksum']
