@@ -61,6 +61,8 @@ def cli():
               help="Include words in the final report.")
 @click.option('--match-symbols', '-m', is_flag=True,
               help="Match symbols against signatures.")
+@click.option('--notes', '-n', default='',
+              help="Add optional notes to the report.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report to screen.")
 def scan(path,
@@ -68,6 +70,7 @@ def scan(path,
          recursive_extraction,
          export_symbols,
          match_symbols,
+         notes,
          print_report):
     if not recursive_extraction:
         export_symbols = False
@@ -75,6 +78,7 @@ def scan(path,
         match_symbols = False
     results = []
     report = {}
+    report['notes'] = notes
     if os.path.isdir(path):
         logger.info(f"Scanning directory: {path}")
         all_files = [
