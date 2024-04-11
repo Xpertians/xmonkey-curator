@@ -1,4 +1,5 @@
 import os
+import re
 import click
 import logging
 import mimetypes
@@ -46,12 +47,16 @@ ARCHIVE_MIME_TYPES = [
     'application/vnd.android.package-archive',
 ]
 
-NOTICE_FILES = [
-    'license',
-    'copyright',
-    'notice',
-    'third-party',
-    'copying'
+LICENSE_FILES = [
+  'COPYING',
+  'COPYRIGHT',    # used by strace
+  'LICENCE',      # used by openssh
+  'LICENSE',
+  'LICENSE.txt',  # used by NumPy, glew
+  'LICENSE.TXT',  # used by hdparm
+  'License',      # used by libcap
+  'copyright',
+  'IPA_Font_License_Agreement_v1.0.txt',  # used by ja-ipafonts
 ]
 
 
@@ -273,8 +278,9 @@ def process_file(file_path,
                     base_name = file_name.split('.')[0]
                     pattern = re.compile(
                         r'(' + '|'.join(
-                            [re.escape(notice_file.lower()) for notice_file in NOTICE_FILES]
-                        ) + r')', re.IGNORECASE
+                            [re.escape(file.lower()) for file in LICENSE_FILES]
+                        ) + r')',
+                        re.IGNORECASE
                     )
                     # Probably needs improvement
                     if bool(pattern.search(base_name)):
