@@ -274,6 +274,8 @@ def process_file(file_path,
                     'is_archive': False,
                 }
                 if isinstance(handler, TextFileHandler):
+                    # When text it extracts the content
+                    # Move to a separate LicenseHandler
                     file_name = os.path.basename(file_path).lower()
                     base_name = file_name.split('.')[0]
                     pattern = re.compile(
@@ -282,10 +284,11 @@ def process_file(file_path,
                         ) + r')',
                         re.IGNORECASE
                     )
-                    # Probably needs improvement
+                    # If license file, add content to results
                     if bool(pattern.search(base_name)):
                         content = handler.extract_content()
                         result['content'] = content
+                    # Here ends LicenseHandler
                 if export_symbols:
                     words = handler.extract_words()
                     if len(words) == 0:
