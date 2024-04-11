@@ -75,7 +75,6 @@ class RulesHandler:
             if rule.identifier == rule_identifier:
                 found_rule = rule
                 break
-    
         if found_rule is None:
             print(f"Error: Rule '{rule_identifier}' does not exist.")
             exit()
@@ -83,5 +82,7 @@ class RulesHandler:
         if 'True' in found_rule.workflow:
             print('Workflow still not implemented')
         else:
-            obj = self.classmap[found_rule.classifier](found_rule.configuration)
+            obj = self.classmap[found_rule.classifier](
+                found_rule.configuration
+            )
             return obj.classifier(results)

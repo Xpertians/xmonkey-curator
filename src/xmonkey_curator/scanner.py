@@ -6,6 +6,7 @@ from tqdm import tqdm
 from xmonkey_curator.handler_registry import get_handler
 from xmonkey_curator.report_generator import ReportGenerator
 from xmonkey_curator.handlers.archive_handler import ArchiveHandler
+from xmonkey_curator.handlers.text_handler import TextFileHandler
 from xmonkey_curator.file_utilities import FileUtilities
 from xmonkey_curator.symbols_handler import SymbolsHandler
 from xmonkey_curator.rules_handler import RulesHandler
@@ -45,6 +46,14 @@ ARCHIVE_MIME_TYPES = [
     'application/vnd.android.package-archive',
 ]
 
+NOTICE_FILES = [
+    'license',
+    'copyright',
+    'notice',
+    'third-party',
+    'copying'
+]
+
 
 @click.group()
 def cli():
@@ -65,6 +74,8 @@ def cli():
               help="Add optional rules to execute.")
 @click.option('--notes', '-n', default='',
               help="Add optional notes to the report.")
+@click.option('--attributions', '-a', is_flag=True,
+              help="Print licenses and copyright for attribution notices.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report to screen.")
 def scan(path,
@@ -74,11 +85,17 @@ def scan(path,
          match_symbols,
          rule,
          notes,
+         attributions,
          print_report):
     if not unpack:
         export_symbols = False
     if not export_symbols:
         match_symbols = False
+    if attributions:
+        export_symbols = False
+        match_symbols = False
+        unpack = True
+        print_report = False
     results = []
     report = {}
     report['notes'] = notes
@@ -251,6 +268,18 @@ def process_file(file_path,
                     },
                     'is_archive': False,
                 }
+                if isinstance(handler, TextFileHandler):
+                    file_name = os.path.basename(file_path).lower()
+                    base_name = file_name.split('.')[0]
+                    pattern = re.compile(
+                        r'(' + '|'.join(
+                            [re.escape(notice_file.lower()) for notice_file in NOTICE_FILES]
+                        ) + r')', re.IGNORECASE
+                    )
+                    # Probably needs improvement
+                    if bool(pattern.search(base_name)):
+                        content = handler.extract_content()
+                        result['content'] = content
                 if export_symbols:
                     words = handler.extract_words()
                     if len(words) == 0:

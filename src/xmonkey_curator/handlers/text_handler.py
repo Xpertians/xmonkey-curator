@@ -29,3 +29,16 @@ class TextFileHandler(BaseFileHandler):
                 words = LexerUtilities.clean_strings(words)
                 return words
             return []
+
+    def extract_content(self):
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                return content
+        except Exception as e:
+            self.logger.error(
+                 f"Failed to process text file {self.file_path}: {e}")
+            self.logger.warning(
+                 f"No strings extracted from {self.file_path}."
+                 )
+            return ""
