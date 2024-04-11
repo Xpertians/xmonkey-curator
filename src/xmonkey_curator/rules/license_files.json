@@ -2,8 +2,9 @@
     "publisher": "xmonkey-curator",
     "updated": "2024-04-03",
     "license": "Apache-2.0",
-	"workflow": "False",
-	"classifier": "FileNameMatch",
+    "identifier": "license_files",
+    "workflow": "False",
+    "classifier": "FileNameMatch",
     "configuration": [
         "copyright",
         "license",

@@ -7,10 +7,10 @@ from itertools import combinations
 
 class Rule:
     def __init__(
-        self, package, publisher, license, workflow,
+        self, identifier, publisher, license, workflow,
         classifier, configuration=None
     ):
-        self.package = package
+        self.identifier = identifier
         self.publisher = publisher
         self.license = license
         self.workflow = workflow
@@ -44,7 +44,7 @@ class RulesHandler:
         self.rules = []
         self.load_rules_from_package()
         self.classmap = {
-          'FileNameMatch': FileNameMatch
+          'FileNameMatch': FileNameMatch,
         }
 
     def load_rules_from_package(self):
@@ -60,7 +60,7 @@ class RulesHandler:
                     with open(file_path, 'r') as file:
                         rule_def = json.load(file)
                         rule = Rule(
-                            rule_def['package'],
+                            rule_def['identifier'],
                             rule_def['publisher'],
                             rule_def['license'],
                             rule_def['workflow'],
@@ -69,10 +69,19 @@ class RulesHandler:
                         )
                         self.rules.append(rule)
 
-    def execute(self, results):
+    def execute(self, rule_identifier, results):
+        found_rule = None
         for rule in self.rules:
-            if 'True' in rule.workflow:
-                print('workflow still not implemented')
-            else:
-                obj = self.classmap[rule.classifier](rule.configuration)
-                return obj.classifier(results)
+            if rule.identifier == rule_identifier:
+                found_rule = rule
+                break
+    
+        if found_rule is None:
+            print(f"Error: Rule '{rule_identifier}' does not exist.")
+            exit()
+
+        if 'True' in found_rule.workflow:
+            print('Workflow still not implemented')
+        else:
+            obj = self.classmap[found_rule.classifier](found_rule.configuration)
+            return obj.classifier(results)

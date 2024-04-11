@@ -55,24 +55,27 @@ def cli():
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--force-text', '-t', is_flag=True,
               help="Force using StringExtract for all files.")
-@click.option('--recursive-extraction', '-r', is_flag=True,
-              help="Extracting archives files.")
+@click.option('--unpack', '-u', is_flag=True,
+              help="Unpack archives files.")
 @click.option('--export-symbols', '-s', is_flag=True,
               help="Include words in the final report.")
 @click.option('--match-symbols', '-m', is_flag=True,
               help="Match symbols against signatures.")
+@click.option('--rule', '-r', default='',
+              help="Add optional rules to execute.")
 @click.option('--notes', '-n', default='',
               help="Add optional notes to the report.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report to screen.")
 def scan(path,
          force_text,
-         recursive_extraction,
+         unpack,
          export_symbols,
          match_symbols,
+         rule,
          notes,
          print_report):
-    if not recursive_extraction:
+    if not unpack:
         export_symbols = False
     if not export_symbols:
         match_symbols = False
@@ -88,7 +91,7 @@ def scan(path,
         ]
         for file_path in tqdm(all_files, desc="Scanning files"):
             result = process_file(file_path, results, '',
-                                  force_text, recursive_extraction,
+                                  force_text, unpack,
                                   export_symbols)
             if result:
                 results.append(result)
@@ -99,16 +102,17 @@ def scan(path,
             results,
             '',
             force_text,
-            recursive_extraction,
+            unpack,
             export_symbols
         )
         if result:
             results.append(result)
     report['scan_results'] = results
-    rules = RulesHandler()
-    ruleset_results = rules.execute(results)
-    if ruleset_results:
-        report['ruleset_results'] = ruleset_results
+    if rule:
+        rules = RulesHandler()
+        ruleset_results = rules.execute(rule, results)
+        if ruleset_results:
+            report['ruleset_results'] = ruleset_results
     if match_symbols:
         sym_matcher = SymbolsHandler()
         matches = sym_matcher.search(results)
@@ -132,7 +136,7 @@ def process_file(file_path,
                  results,
                  archive_checksum=None,
                  force_text=False,
-                 recursive_extraction=False,
+                 unpack=False,
                  export_symbols=False):
     mime_type = FileUtilities.identify_mime_type(file_path)
     file_size = FileUtilities.get_file_size(file_path)
@@ -151,7 +155,7 @@ def process_file(file_path,
                 )
         return None
     elif mime_type in ARCHIVE_MIME_TYPES:
-        if recursive_extraction:
+        if unpack:
             handler = ArchiveHandler(file_path)
             archive_checksum = hash_md5
             handler.process(
@@ -160,7 +164,7 @@ def process_file(file_path,
                     results,
                     archive_checksum,
                     force_text,
-                    recursive_extraction,
+                    unpack,
                     export_symbols
                 )
             )
@@ -230,7 +234,7 @@ def process_file(file_path,
                         results,
                         archive_checksum,
                         force_text,
-                        recursive_extraction,
+                        unpack,
                         export_symbols
                     )
                 )
