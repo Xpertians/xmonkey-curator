@@ -63,7 +63,9 @@ class LicensesHandler:
             license.name for license in self.licenses
             if license.matches(results)
         ]
-        print(base_name, matches)
-        oslili = LicenseAndCopyrightIdentifier()
-        spdx_code, license_proba = oslili.identify_license(results)
-        print(spdx_code, license_proba)
+        if matches:
+            return matches[0]
+        else:
+            oslili = LicenseAndCopyrightIdentifier()
+            spdx_code, license_proba = oslili.identify_license(results)
+            return spdx_code

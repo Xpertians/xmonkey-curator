@@ -290,7 +290,8 @@ def process_file(file_path,
                         content = handler.extract_content()
                         result['content'] = content
                         lh = LicensesHandler()
-                        lh.execute(file_name, content)
+                        LiD = lh.execute(file_name, content)
+                        print(file_name, LiD)
                     # Here ends LicenseHandler
                 if export_symbols:
                     words = handler.extract_words()
