@@ -2,9 +2,9 @@
   "name": "GPL-2.0",
   "description": "Rule to identify GNU General Public License version 2",
   "include_identifiers": [
-    "GNU GENERAL PUBLIC LICENSE", "version 2", "GNU General Public License"
+    "GNU GENERAL PUBLIC LICENSE", "version 2", "GNU General Public License", "Your New Programs"
   ],
   "exclude_identifiers": [
-    "Affero", "version 3", "Apache"
+    "Affero", "version 3", "Apache", "Exception to Section", "Your New Libraries"
   ]
 }

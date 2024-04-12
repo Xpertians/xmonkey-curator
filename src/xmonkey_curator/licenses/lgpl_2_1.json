@@ -2,9 +2,9 @@
   "name": "LGPL-2.1",
   "description": "Rule to identify GNU Lesser General Public License version 2.1",
   "include_identifiers": [
-    "GNU LESSER GENERAL PUBLIC LICENSE", "version 2.1", "LESSER", "February 1999"
+    "GNU LESSER GENERAL PUBLIC LICENSE", "version 2.1", "February 1999", "Your New Libraries"
   ],
   "exclude_identifiers": [
-    "Affero", "version 3", "Apache", "1991"
+    "Affero", "version 3", "Apache", "Your New Programs"
   ]
 }

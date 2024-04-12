@@ -288,10 +288,13 @@ def process_file(file_path,
                     # If license file, add content to results
                     if bool(pattern.search(base_name)):
                         content = handler.extract_content()
-                        result['content'] = content
                         lh = LicensesHandler()
                         LiD = lh.execute(file_name, content)
-                        print(file_name, LiD)
+                        result['license'] = True
+                        if LiD:
+                            result['spdx_id'] = LiD
+                        else:
+                            result['content'] = content
                     # Here ends LicenseHandler
                 if export_symbols:
                     words = handler.extract_words()
