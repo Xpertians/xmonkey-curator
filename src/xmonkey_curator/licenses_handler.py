@@ -4,6 +4,7 @@ import json
 import argparse
 import pkg_resources
 from itertools import combinations
+from oslili import LicenseAndCopyrightIdentifier
 
 
 class License:
@@ -15,16 +16,11 @@ class License:
 
     def matches(self, text):
         text = text.lower()
-        print(self.name)
         inc_all = all(re.search(pattern, text, re.IGNORECASE) for pattern in self.include_identifiers)
         exc_none = not any(re.search(pattern, text, re.IGNORECASE) for pattern in self.exclude_identifiers)
         if inc_all and exc_none:
             return True
         else:
-            if not inc_all:
-                print('Not all required patterns found:', self.include_identifiers)
-            if not exc_none:
-                print('Excluded pattern found:', self.exclude_identifiers)
             return False
 
 
@@ -56,3 +52,6 @@ class LicensesHandler:
     def execute(self, base_name, results):
         matches = [license.name for license in self.licenses if license.matches(results)]
         print(base_name, matches)
+        oslili = LicenseAndCopyrightIdentifier()
+        spdx_code, license_proba = oslili.identify_license(results)
+        print(spdx_code, license_proba)
