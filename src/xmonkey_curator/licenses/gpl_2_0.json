@@ -1,10 +1,10 @@
 {
   "name": "GPL-2.0",
-  "description": "Rule to identify GNU General Public License version 2, excluding GPL-3.0 and AGPL.",
+  "description": "Rule to identify GNU General Public License version 2",
   "include_identifiers": [
-    "library", "version 2", "GNU General Public License"
+    "GNU GENERAL PUBLIC LICENSE", "version 2", "GNU General Public License"
   ],
   "exclude_identifiers": [
-    "Affero", "version 3"
+    "Affero", "version 3", "Apache"
   ]
 }

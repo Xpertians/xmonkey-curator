@@ -1,0 +1,10 @@
+{
+  "name": "LGPL-3.0",
+  "description": "Rule to identify GNU Lesser General Public License version 3.0",
+  "include_identifiers": [
+    "3,", "GNU", "GNU LESSER GENERAL PUBLIC LICENSE", "Exception to Section 3"
+  ],
+  "exclude_identifiers": [
+    "Apache"
+  ]
+}

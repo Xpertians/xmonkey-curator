@@ -12,6 +12,7 @@ from xmonkey_curator.file_utilities import FileUtilities
 from xmonkey_curator.symbols_handler import SymbolsHandler
 from xmonkey_curator.rules_handler import RulesHandler
 from xmonkey_curator.signatures_handler import SignatureUpdater
+from xmonkey_curator.licenses_handler import LicensesHandler
 
 
 logging.basicConfig(
@@ -288,6 +289,8 @@ def process_file(file_path,
                     if bool(pattern.search(base_name)):
                         content = handler.extract_content()
                         result['content'] = content
+                        lh = LicensesHandler()
+                        lh.execute(file_name, content)
                     # Here ends LicenseHandler
                 if export_symbols:
                     words = handler.extract_words()

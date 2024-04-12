@@ -1,0 +1,58 @@
+import os
+import re
+import json
+import argparse
+import pkg_resources
+from itertools import combinations
+
+
+class License:
+    def __init__(self, name, include_identifiers, exclude_identifiers=None, additional_info=None):
+        self.name = name
+        self.include_identifiers = include_identifiers
+        self.exclude_identifiers = exclude_identifiers or []
+        self.additional_info = additional_info or {}
+
+    def matches(self, text):
+        text = text.lower()
+        print(self.name)
+        inc_all = all(re.search(pattern, text, re.IGNORECASE) for pattern in self.include_identifiers)
+        exc_none = not any(re.search(pattern, text, re.IGNORECASE) for pattern in self.exclude_identifiers)
+        if inc_all and exc_none:
+            return True
+        else:
+            if not inc_all:
+                print('Not all required patterns found:', self.include_identifiers)
+            if not exc_none:
+                print('Excluded pattern found:', self.exclude_identifiers)
+            return False
+
+
+class LicensesHandler:
+    def __init__(self):
+        self.licenses = []
+        self.load_licenses_from_package()
+
+    def load_licenses_from_package(self):
+        resource_package = __name__
+        resource_path = '/'.join(('licenses', ''))
+        if pkg_resources.resource_isdir(resource_package, resource_path):
+            licenses_files = pkg_resources.resource_listdir(
+                resource_package, resource_path)
+            for file_name in licenses_files:
+                if file_name.endswith('.json'):
+                    file_path = pkg_resources.resource_filename(
+                        resource_package, f'licenses/{file_name}')
+                    with open(file_path, 'r') as file:
+                        license_def = json.load(file)
+                        license = License(
+                            license_def['name'],
+                            license_def['include_identifiers'],
+                            license_def.get('exclude_identifiers', []),
+                            license_def.get('additional_info', {})
+                        )
+                        self.licenses.append(license)
+
+    def execute(self, base_name, results):
+        matches = [license.name for license in self.licenses if license.matches(results)]
+        print(base_name, matches)
