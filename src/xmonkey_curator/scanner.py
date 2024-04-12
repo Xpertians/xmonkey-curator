@@ -12,6 +12,7 @@ from xmonkey_curator.file_utilities import FileUtilities
 from xmonkey_curator.symbols_handler import SymbolsHandler
 from xmonkey_curator.rules_handler import RulesHandler
 from xmonkey_curator.signatures_handler import SignatureUpdater
+from xmonkey_curator.licenses_handler import LicensesHandler
 
 
 logging.basicConfig(
@@ -79,8 +80,8 @@ def cli():
               help="Add optional rules to execute.")
 @click.option('--notes', '-n', default='',
               help="Add optional notes to the report.")
-@click.option('--attributions', '-a', is_flag=True,
-              help="Print licenses and copyright for attribution notices.")
+@click.option('--licenses', '-l', is_flag=True,
+              help="Identify SPDX licenses.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report to screen.")
 def scan(path,
@@ -90,17 +91,14 @@ def scan(path,
          match_symbols,
          rule,
          notes,
-         attributions,
+         licenses,
          print_report):
     if not unpack:
         export_symbols = False
     if not export_symbols:
         match_symbols = False
-    if attributions:
-        export_symbols = False
-        match_symbols = False
+    if licenses:
         unpack = True
-        print_report = False
     results = []
     report = {}
     report['notes'] = notes
@@ -287,7 +285,13 @@ def process_file(file_path,
                     # If license file, add content to results
                     if bool(pattern.search(base_name)):
                         content = handler.extract_content()
-                        result['content'] = content
+                        lh = LicensesHandler()
+                        LiD = lh.execute(file_name, content)
+                        result['license'] = True
+                        if LiD:
+                            result['spdx_id'] = LiD
+                        else:
+                            result['content'] = content
                     # Here ends LicenseHandler
                 if export_symbols:
                     words = handler.extract_words()

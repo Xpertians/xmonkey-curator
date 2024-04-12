@@ -38,6 +38,7 @@ setup(
         'rpmfile',
         'zstandard',
         'requests',
+        'oslili',
     ],
     extras_require={
         'test': ['pytest'],
