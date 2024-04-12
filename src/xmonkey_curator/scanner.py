@@ -80,8 +80,8 @@ def cli():
               help="Add optional rules to execute.")
 @click.option('--notes', '-n', default='',
               help="Add optional notes to the report.")
-@click.option('--attributions', '-a', is_flag=True,
-              help="Print licenses and copyright for attribution notices.")
+@click.option('--licenses', '-l', is_flag=True,
+              help="Identify SPDX licenses.")
 @click.option('--print-report', '-p', is_flag=True,
               help="Print the report to screen.")
 def scan(path,
@@ -91,13 +91,13 @@ def scan(path,
          match_symbols,
          rule,
          notes,
-         attributions,
+         licenses,
          print_report):
     if not unpack:
         export_symbols = False
     if not export_symbols:
         match_symbols = False
-    if attributions:
+    if licenses:
         unpack = True
     results = []
     report = {}
