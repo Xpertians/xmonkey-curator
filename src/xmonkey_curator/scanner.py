@@ -98,10 +98,7 @@ def scan(path,
     if not export_symbols:
         match_symbols = False
     if attributions:
-        export_symbols = False
-        match_symbols = False
         unpack = True
-        print_report = False
     results = []
     report = {}
     report['notes'] = notes
