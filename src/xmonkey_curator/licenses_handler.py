@@ -64,7 +64,7 @@ class LicensesHandler:
             if license.matches(results)
         ]
         if matches:
-            return matches
+            return matches[0]
         else:
             oslili = LicenseAndCopyrightIdentifier()
             spdx_code, license_proba = oslili.identify_license(
