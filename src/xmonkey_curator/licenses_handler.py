@@ -8,7 +8,10 @@ from oslili import LicenseAndCopyrightIdentifier
 
 
 class License:
-    def __init__(self, name, include_identifiers, exclude_identifiers=None, additional_info=None):
+    def __init__(
+        self, name, include_identifiers,
+        exclude_identifiers=None, additional_info=None
+    ):
         self.name = name
         self.include_identifiers = include_identifiers
         self.exclude_identifiers = exclude_identifiers or []
@@ -16,8 +19,14 @@ class License:
 
     def matches(self, text):
         text = text.lower()
-        inc_all = all(re.search(pattern, text, re.IGNORECASE) for pattern in self.include_identifiers)
-        exc_none = not any(re.search(pattern, text, re.IGNORECASE) for pattern in self.exclude_identifiers)
+        inc_all = all(
+            re.search(pattern, text, re.IGNORECASE)
+            for pattern in self.include_identifiers
+        )
+        exc_none = not any(
+            re.search(pattern, text, re.IGNORECASE)
+            for pattern in self.exclude_identifiers
+        )
         if inc_all and exc_none:
             return True
         else:
@@ -50,7 +59,10 @@ class LicensesHandler:
                         self.licenses.append(license)
 
     def execute(self, base_name, results):
-        matches = [license.name for license in self.licenses if license.matches(results)]
+        matches = [
+            license.name for license in self.licenses
+            if license.matches(results)
+        ]
         print(base_name, matches)
         oslili = LicenseAndCopyrightIdentifier()
         spdx_code, license_proba = oslili.identify_license(results)
