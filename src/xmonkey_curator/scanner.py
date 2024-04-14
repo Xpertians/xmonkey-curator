@@ -51,14 +51,9 @@ ARCHIVE_MIME_TYPES = [
 
 LICENSE_FILES = [
   'COPYING',
-  'COPYRIGHT',    # used by strace
-  'LICENCE',      # used by openssh
+  'COPYRIGHT',
+  'LICENCE',
   'LICENSE',
-  'LICENSE.txt',  # used by NumPy, glew
-  'LICENSE.TXT',  # used by hdparm
-  'License',      # used by libcap
-  'copyright',
-  'IPA_Font_License_Agreement_v1.0.txt',  # used by ja-ipafonts
 ]
 
 
