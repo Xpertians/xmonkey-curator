@@ -3,6 +3,7 @@ import re
 import click
 import logging
 import mimetypes
+import unicodedata
 from tqdm import tqdm
 from xmonkey_curator.handler_registry import get_handler
 from xmonkey_curator.report_generator import ReportGenerator
@@ -80,6 +81,8 @@ def cli():
               help="Add optional rules to execute.")
 @click.option('--notes', '-n', default='',
               help="Add optional notes to the report.")
+@click.option('--output', '-o', default='scan_report',
+              help="Export results to filename with specific name.")
 @click.option('--licenses', '-l', is_flag=True,
               help="Identify SPDX licenses.")
 @click.option('--print-report', '-p', is_flag=True,
@@ -91,12 +94,15 @@ def scan(path,
          match_symbols,
          rule,
          notes,
+         output,
          licenses,
          print_report):
     if not unpack:
         export_symbols = False
     if not export_symbols:
         match_symbols = False
+    if export_symbols:
+        unpack = True
     if licenses:
         unpack = True
     results = []
@@ -141,7 +147,10 @@ def scan(path,
     if print_report:
         report_generator.print_report()
     else:
-        report_generator.save_report('scan_report.json')
+        report_name = re.sub(r'[^a-zA-Z0-9.-_]+', '', output)
+        if not report_name.endswith('.json'):
+            report_name += '.json'
+        report_generator.save_report(report_name)
 
 
 @cli.command(name='update', help="Update local signature files")
