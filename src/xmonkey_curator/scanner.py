@@ -96,9 +96,9 @@ def scan(path,
         export_symbols = False
     if not export_symbols:
         match_symbols = False
-    if export_symbols:
-        unpack = True
     if licenses:
+        unpack = True
+    if export_symbols:
         unpack = True
     results = []
     report = {}
