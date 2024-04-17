@@ -23,7 +23,7 @@ class PerlFileHandler(BaseFileHandler):
         except FileNotFoundError:
             print(f"File not found: {file_path}")
         except Exception as e:
-            print(f"Error processing file: {e}")
+            print(f"Error processing Perl file: {e}")
         base_name = os.path.basename(self.file_path)
         file_name = os.path.splitext(base_name)[0]
         words.append(file_name.lower())

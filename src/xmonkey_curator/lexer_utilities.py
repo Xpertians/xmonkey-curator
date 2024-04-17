@@ -25,7 +25,7 @@ class LexerUtilities:
                 needs_lower_check = any(
                     kw in token_type_str for kw in lower_check_keywords
                 )
-                if needs_lower_check and not value[0].islower():
+                if needs_lower_check and (not value or not value[0].islower()):
                     continue
                 symbols.append(value.lower())
             elif 'PreprocFile' in token_type_str:
