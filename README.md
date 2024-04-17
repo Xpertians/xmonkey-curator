@@ -1,3 +1,5 @@
+![Logo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/monkey_curator_github.png?raw=true)
+
 # XMonkey Curator - Automated DESCAM tooling
 
 ## Summary
