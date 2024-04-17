@@ -18,5 +18,51 @@ The results of the review can be automatically processed (Catalog) using predefi
 
 ```
 $ pip install xmonkey-curator
-$ xmonkey-curator [OPTIONS] PATH
+$ xmonkey-curator scan --help
+Usage: xmonkey-curator scan [OPTIONS] PATH
+
+  Scan target files using selected options
+
+Options:
+  -t, --force-text      Force using StringExtract for all files.
+  -u, --unpack          Unpack archives files.
+  -s, --export-symbols  Include words in the final report.
+  -m, --match-symbols   Match symbols against signatures.
+  -r, --rule TEXT       Add optional rules to execute.
+  -n, --notes TEXT      Add optional notes to the report.
+  -o, --output TEXT     Export results to filename with specific name.
+  -l, --licenses        Identify SPDX licenses.
+  -p, --print-report    Print the report to screen.
+  --help                Show this message and exit.
+
 ```
+
+### Scanning to identify files
+
+In order to perform a full scan, you must select the option "unpack" that will export the content of any archive file.
+
+```
+$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -o ffmpeg-source.json
+```
+
+### Scanning to export symbols and match with signatures
+
+Using the option "match", will attempt to identify packages by matching symbols with signatures.
+
+```
+$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -m -p
+```
+
+### Generating signatures
+
+You can create signatures by performing scans to source code and binary of a package, looking for signifcative symbols.
+
+Then you can use the included script to check what symbols from the source code has survived the compilation.
+
+```
+$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -o ffmpeg-source.json
+$ xmonkey-curator scan ffmpeg-4.4.1-linux-64.zip -u -s -o ffmpeg-binary.json
+$ ./scripts/signature_generator.py ffmpeg-source.json ffmpeg-binary.json
+
+```
+
