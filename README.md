@@ -13,8 +13,8 @@ Scan types supported:
 - Literal Strings
 - Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
 - Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
-- FuzzyHashing (Using LSH or SSDeep)
-- License detection (Using [OSLiLi](https://github.com/Xpertians/oslili))
+- FuzzyHashing (using LSH or SSDeep)
+- License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
 
 The results of the review can be automatically processed (Catalog) using predefined [rules](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/rules/) and workflows (Analysis).
 
