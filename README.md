@@ -10,11 +10,15 @@ The tool can extract (DECOMPOSE) archive files like Jar, ZIP, Tarballs, RPM, Deb
 
 XMonkey Curator also performs a basic review (Scanning) of the assets to extract information as "features" for OSLC assessments.
 Scan types supported:
-- Literal Strings
-- Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
-- Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
-- FuzzyHashing (using LSH or SSDeep)
-- License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
+- [Alpha Version](https://github.com/Xpertians/xmonkey-curator/milestone/1):
+  - Literal Strings
+  - Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
+  - License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
+  - Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
+- [Beta Version](https://github.com/Xpertians/xmonkey-curator/milestone/2)
+  - FuzzyHashing (using LSH or SSDeep)
+  - Generate OSS Notices
+  - Improve external rules for automatic classification
 
 The results of the review can be automatically processed (Catalog) using predefined [rules](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/rules/) and workflows (Analysis).
 
