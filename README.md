@@ -15,7 +15,7 @@ Scan types supported:
   - Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
   - License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
   - Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
-- [Beta Version](https://github.com/Xpertians/xmonkey-curator/milestone/2)
+- [Beta Version](https://github.com/Xpertians/xmonkey-curator/milestone/2):
   - FuzzyHashing (using LSH or SSDeep)
   - Generate OSS Notices
   - Improve external rules for automatic classification
