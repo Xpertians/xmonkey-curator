@@ -6,15 +6,33 @@
 
 XMonkey Curator is a tool that performs DESCAM (Decompose, Enumerate, Scanning, Catalog, Analysis, Merge) review to software for Open Source License Compliance.
 
-The tool can extract (Decompose) archive files like Jar, ZIP, Tarballs, RPM, Debian, etc., to recursively obtain the list of assets (Enumerate) contained.
+The tool can extract (DECOMPOSE) archive files like Jar, ZIP, Tarballs, RPM, Debian, etc., to recursively obtain the list of assets (Enumerate) contained.
 
 XMonkey Curator also performs a basic review (Scanning) of the assets to extract information as "features" for OSLC assessments.
 Scan types supported:
 - Literal Strings
-- Regex Patterns (*example*).
-- Symbols Matching using predefined *signatures*.
+- Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
+- Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
+- FuzzyHashing (using LSH or SSDeep)
+- License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
 
-The results of the review can be automatically processed (Catalog) using predefined *rules* and workflows (Analysis).
+The results of the review can be automatically processed (Catalog) using predefined [rules](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/rules/) and workflows (Analysis).
+
+The software currently supports the format listed below:
+* ELF
+* Mach-OS
+* Objective-C
+* Python
+* PHP
+* Java
+* Ruby
+* Rust
+* Perl
+* C++
+* ...
+
+A full list can be found [here](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/handler_registry.py#L10).
+
 
 ## Usage
 
