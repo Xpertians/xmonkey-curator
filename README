@@ -29,17 +29,7 @@ Beta Version:
 
 The results of the review can be automatically processed (Catalog) using predefined rules and workflows (Analysis).
 
-The software currently supports the format listed below:
-* ELF
-* Mach-OS
-* Objective-C
-* Python
-* PHP
-* Java
-* Ruby
-* Rust
-* Perl
-* C++
+Current support: ELF, Mach-OS, Objective-C, Python, PHP, Java, Ruby, Rust, Perl, C++
 
 Usage
 -----
