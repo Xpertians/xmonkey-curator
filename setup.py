@@ -20,7 +20,7 @@ setup(
     version=read_version(),
     description="Automated OSS curation scanner",
     long_description=long_description,
-    long_description_content_type='text/x-rst',
+    long_description_content_type='text/markdown',
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
     url='https://github.com/Xpertians/xmonkey-curator',
