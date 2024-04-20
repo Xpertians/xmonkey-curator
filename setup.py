@@ -39,6 +39,7 @@ setup(
         'zstandard',
         'requests',
         'oslili',
+        'tabulate',
     ],
     extras_require={
         'test': ['pytest'],
