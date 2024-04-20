@@ -33,7 +33,6 @@ The software currently supports the format listed below:
 * Rust
 * Perl
 * C++
-* ...
 
 A full list can be found [here](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/handler_registry.py#L10).
 
@@ -76,6 +75,8 @@ Using the option "match", will attempt to identify packages by matching symbols 
 ```
 $ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -m -p
 ```
+
+![Logo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true)
 
 ### Generating signatures
 
