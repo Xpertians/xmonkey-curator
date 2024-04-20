@@ -1,8 +1,3 @@
-.. figure:: https://github.com/Xpertians/xmonkey-curator/blob/main/logos/monkey_curator_github.png?raw=true
-   :alt: Logo
-
-   Logo
-
 XMonkey Curator - Automated DESCAM tooling
 ==========================================
 
@@ -19,29 +14,32 @@ contained.
 
 XMonkey Curator also performs a basic review (Scanning) of the assets to
 extract information as “features” for OSLC assessments. Scan types
-supported: - `Alpha
-Version <https://github.com/Xpertians/xmonkey-curator/milestone/1>`__: -
-Literal Strings - Symbols Matching using predefined
-`signatures <https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures>`__.
-- License detection (using
-`OSLiLi <https://github.com/Xpertians/oslili>`__) - Regex Patterns
-(`examples <https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses>`__).
-- `Beta
-Version <https://github.com/Xpertians/xmonkey-curator/milestone/2>`__: -
-FuzzyHashing (using LSH or SSDeep) - Generate OSS Notices - Improve
-external rules for automatic classification
+supported: 
 
-The results of the review can be automatically processed (Catalog) using
-predefined
-`rules <https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/rules/>`__
-and workflows (Analysis).
+* Alpha Version:
+- Literal Strings
+- Symbols Matching using predefined signatures.
+- License detection (using OSLiLi)
+- Regex Patterns
 
-The software currently supports the format listed below: \* ELF \*
-Mach-OS \* Objective-C \* Python \* PHP \* Java \* Ruby \* Rust \* Perl
-\* C++
+* Beta Version:
+- FuzzyHashing (using LSH or SSDeep)
+- Generate OSS Notices
+- Improve external rules for automatic classification
 
-A full list can be found
-`here <https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/handler_registry.py#L10>`__.
+The results of the review can be automatically processed (Catalog) using predefined rules and workflows (Analysis).
+
+The software currently supports the format listed below:
+* ELF
+* Mach-OS
+* Objective-C
+* Python
+* PHP
+* Java
+* Ruby
+* Rust
+* Perl
+* C++
 
 Usage
 -----
@@ -85,11 +83,6 @@ symbols with signatures.
 ::
 
    $ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -m -p
-
-.. figure:: https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true
-   :alt: SignatureResults
-
-   SignatureResults
 
 Generating signatures
 ~~~~~~~~~~~~~~~~~~~~~
