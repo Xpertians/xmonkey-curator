@@ -76,7 +76,7 @@ Using the option "match", will attempt to identify packages by matching symbols 
 $ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -m -p
 ```
 
-![Logo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true)
+![SignatureResults](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true)
 
 ### Generating signatures
 
