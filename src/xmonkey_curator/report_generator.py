@@ -102,8 +102,9 @@ class ReportGenerator:
         print(summary_table)
         print("\nDetailed Scan Results:")
         print(detailed_table)
-        print("\nSignature Matches:")
-        print(signature_table)
+        if "symbols_matching" in data["results"]:
+            print("\nSignature Matches:")
+            print(signature_table)
 
 
 def create_report_entry(file_path, mime_type, checksum, words):
