@@ -16,16 +16,16 @@ XMonkey Curator also performs a basic review (Scanning) of the assets to
 extract information as “features” for OSLC assessments. Scan types
 supported: 
 
-* Alpha Version:
-- Literal Strings
-- Symbols Matching using predefined signatures.
-- License detection (using OSLiLi)
-- Regex Patterns
+Alpha Version:
+* Literal Strings
+* Symbols Matching using predefined signatures.
+* License detection (using OSLiLi)
+* Regex Patterns
 
-* Beta Version:
-- FuzzyHashing (using LSH or SSDeep)
-- Generate OSS Notices
-- Improve external rules for automatic classification
+Beta Version:
+* FuzzyHashing (using LSH or SSDeep)
+* Generate OSS Notices
+* Improve external rules for automatic classification
 
 The results of the review can be automatically processed (Catalog) using predefined rules and workflows (Analysis).
 
