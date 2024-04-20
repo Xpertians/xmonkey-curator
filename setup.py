@@ -12,7 +12,7 @@ def read_version():
             return version_match.group(1)
         raise RuntimeError("Unable to find version string.")
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("README", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
@@ -20,7 +20,7 @@ setup(
     version=read_version(),
     description="Automated OSS curation scanner",
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type='text/x-rst',
     author="Oscar Valenzuela",
     author_email="oscar.valenzuela.b@gmail.com",
     url='https://github.com/Xpertians/xmonkey-curator',
