@@ -91,3 +91,7 @@ $ ./scripts/signature_generator.py ffmpeg-source.json ffmpeg-binary.json
 
 ```
 
+![Demo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/monkey_curator_demo.png?raw=true)
+
+![Demo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true)
+
