@@ -87,10 +87,14 @@ class JvmFileHandler(BaseFileHandler):
             class_file = self.parse_class_file(BytesIO(f.read()))
             for entry in class_file['constant_pool']:
                 if 'bytes' in entry:
-                    string_data = entry['bytes'].decode('utf-8').strip()
-                    cleaned_data = re.sub(r'[^a-zA-Z0-9/.\s]', '', string_data)
-                    if cleaned_data and len(cleaned_data) >= 4:
-                        unique_strings.add(cleaned_data)
+                    try:
+                        string_data = entry['bytes'].decode('utf-8').strip()
+                        cleaned_data = re.sub(r'[^a-zA-Z0-9/.\s]', '', string_data)
+                        if cleaned_data and len(cleaned_data) >= 4:
+                            unique_strings.add(cleaned_data)
+                    except UnicodeDecodeError as e:
+                        self.logger.warning(f"Decoding error: {e} for entry: {entry}")
+                        continue
         unique_strings_list = list(unique_strings)
         if unique_strings_list:
             symbols.extend(unique_strings_list)
@@ -109,12 +113,16 @@ class JvmFileHandler(BaseFileHandler):
     def parse_u4(self, file: BytesIO) -> int:
         return self.parse_ux(file, 4)
 
-    def parse_constant_pool(self, f: BytesIO, pool_size: int) -> int:
+    def parse_constant_pool(self, f: BytesIO, pool_size: int) -> list:
         constant_pool = []
         for _ in range(pool_size):
             cp_info = {}
             tag = self.parse_u1(f)
-            constant = self.Constants(tag)
+            if tag in set(item.value for item in self.Constants):
+                constant = self.Constants(tag)
+            else:
+                self.logger.error(f"Unexpected tag encountered {tag=}")
+                continue
             if constant in (
                 self.Constants.CONSTANT_Methodref,
                 self.Constants.CONSTANT_InterfaceMethodref,
@@ -181,7 +189,7 @@ class JvmFileHandler(BaseFileHandler):
         for _ in range(methods_count):
             method_info = {}
             method_info["access_flags"] = self.parse_access_flags(
-                self.parse_u2(f), ACCESS_FLAGS["method"]
+                self.parse_u2(f), self.ACCESS_FLAGS["method"]
             )
             method_info["name_index"] = self.parse_u2(f)
             method_info["descriptor_index"] = self.parse_u2(f)
