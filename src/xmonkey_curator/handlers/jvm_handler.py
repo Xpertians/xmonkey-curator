@@ -94,7 +94,6 @@ class JvmFileHandler(BaseFileHandler):
         unique_strings_list = list(unique_strings)
         if unique_strings_list:
             symbols.extend(unique_strings_list)
-
         words = LexerUtilities.clean_strings(symbols)
         return words
 
@@ -116,7 +115,6 @@ class JvmFileHandler(BaseFileHandler):
             cp_info = {}
             tag = self.parse_u1(f)
             constant = self.Constants(tag)
-
             if constant in (
                 self.Constants.CONSTANT_Methodref,
                 self.Constants.CONSTANT_InterfaceMethodref,
