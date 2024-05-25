@@ -250,4 +250,3 @@ class JvmFileHandler(BaseFileHandler):
             f, class_file["attributes_count"]
         )
         return class_file
-      
