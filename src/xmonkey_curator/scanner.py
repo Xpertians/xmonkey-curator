@@ -39,6 +39,11 @@ EXCLUDED_MIME_TYPES = [
     'application/msword'
 ]
 
+EXCLUDED_MAGIC_PATHS = [
+    '.git/',
+    '__pycache__/',
+]
+
 ARCHIVE_MIME_TYPES = [
     'application/zip',
     'application/gzip',
@@ -167,6 +172,9 @@ def process_file(file_path,
     hash_md5, hash_sha1, hash_sha256, hash_ssdeep = (
             FileUtilities.calculate_hashes(file_path)
         )
+    if any(excluded in file_path for excluded in EXCLUDED_MAGIC_PATHS):
+        logger.info(f"Skipping {file_path} as it matches an excluded path.")
+        return None
     if mime_type in EXCLUDED_MIME_TYPES:
         logger.info(
                     f"Skipping {file_path} as MIME: {mime_type} is excluded"
