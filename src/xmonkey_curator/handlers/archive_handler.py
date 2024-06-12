@@ -35,6 +35,9 @@ class ArchiveHandler(BaseFileHandler):
         if zipfile.is_zipfile(self.file_path):
             with zipfile.ZipFile(self.file_path, 'r') as zip_ref:
                 zip_ref.extractall(destination)
+        elif filetype in 'application/vnd.android.package-archive':
+            with zipfile.ZipFile(self.file_path, 'r') as zip_ref:
+                zip_ref.extractall(destination)
         elif tarfile.is_tarfile(self.file_path):
             with tarfile.open(self.file_path, 'r:*') as tar_ref:
                 tar_ref.extractall(destination)
