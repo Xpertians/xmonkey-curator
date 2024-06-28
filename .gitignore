@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 scan_report.json
+experiment/
 
 # C extensions
 *.so
