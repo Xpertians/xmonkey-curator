@@ -116,7 +116,7 @@ def scan(path,
             for file in files
         ]
         for file_path in tqdm(all_files, desc="Scanning files"):
-            result = process_file(file_path, results, '',
+            result = process_file(file_path, '', results, '',
                                   force_text, unpack,
                                   export_symbols)
             if result:
@@ -125,6 +125,7 @@ def scan(path,
         logger.info(f"Scanning file: {path}")
         result = process_file(
             path,
+            '',
             results,
             '',
             force_text,
@@ -162,6 +163,7 @@ def update_signatures_command():
 
 
 def process_file(file_path,
+                 temp_dir,
                  results,
                  archive_checksum=None,
                  force_text=False,
@@ -191,8 +193,9 @@ def process_file(file_path,
             handler = ArchiveHandler(file_path)
             archive_checksum = hash_md5
             handler.process(
-                lambda path: process_file(
+                lambda path, temp_dir: process_file(
                     path,
+                    temp_dir,
                     results,
                     archive_checksum,
                     force_text,
@@ -261,8 +264,9 @@ def process_file(file_path,
                 results.append(result)
                 archive_checksum = checksum
                 handler.process(
-                    lambda path: process_file(
+                    lambda path, temp_dir: process_file(
                         path,
+                        temp_dir,
                         results,
                         archive_checksum,
                         force_text,
@@ -271,6 +275,8 @@ def process_file(file_path,
                     )
                 )
             else:
+                if temp_dir:
+                    file_path = file_path.replace(temp_dir+'/', '')
                 result = {
                     'file_path': file_path,
                     'mime_type': mime_type,
@@ -299,7 +305,7 @@ def process_file(file_path,
                         content = handler.extract_content()
                         lh = LicensesHandler()
                         LiD = lh.execute(file_name, content)
-                        result['license'] = True
+                        result['is_license'] = True
                         if LiD:
                             result['spdx_id'] = LiD
                         else:
