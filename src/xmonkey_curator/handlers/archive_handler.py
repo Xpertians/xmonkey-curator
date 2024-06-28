@@ -26,12 +26,11 @@ class ArchiveHandler(BaseFileHandler):
             ]
             desc = f"Extracting {os.path.basename(self.file_path)}"
             for file_path in tqdm(extracted_files, desc=desc[:75]):
-                process_file_callback(file_path)
+                process_file_callback(file_path, temp_dir)
 
     def extract_archive(self, destination):
         """Extracts the archive to the specified destination directory."""
         filetype = FileUtilities.identify_mime_type(self.file_path)
-        # print('mime:', filetype)
         if zipfile.is_zipfile(self.file_path):
             with zipfile.ZipFile(self.file_path, 'r') as zip_ref:
                 zip_ref.extractall(destination)
