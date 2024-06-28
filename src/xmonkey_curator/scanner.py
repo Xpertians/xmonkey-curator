@@ -299,7 +299,7 @@ def process_file(file_path,
                         content = handler.extract_content()
                         lh = LicensesHandler()
                         LiD = lh.execute(file_name, content)
-                        result['license'] = True
+                        result['is_license'] = True
                         if LiD:
                             result['spdx_id'] = LiD
                         else:
