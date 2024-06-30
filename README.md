@@ -90,3 +90,5 @@ $ xmonkey-curator scan ffmpeg-4.4.1-linux-64.zip -u -s -o ffmpeg-binary.json
 $ ./scripts/signature_generator.py ffmpeg-source.json ffmpeg-binary.json
 
 ```
+
+[![Publish Python 🐍 distribution 📦 to PyPI and TestPyPI](https://github.com/Xpertians/xmonkey-curator/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Xpertians/xmonkey-curator/actions/workflows/python-publish.yml)
