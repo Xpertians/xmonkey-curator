@@ -70,7 +70,7 @@ jobs:
           name: python-package-distributions
           path: dist/
       - name: Sign the dists with Sigstore
-        run: sigstore sign --fulcio-issuer=https://oauth2.sigstore.dev/auth --rekor-url=https://rekor.sigstore.dev --output-directory dist/ ./dist/*.tar.gz ./dist/*.whl
+        run: sigstore sign --rekor-url https://rekor.sigstore.dev ./dist/*.tar.gz ./dist/*.whl
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
