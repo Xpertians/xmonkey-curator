@@ -89,11 +89,15 @@ class JvmFileHandler(BaseFileHandler):
                 if 'bytes' in entry:
                     try:
                         string_data = entry['bytes'].decode('utf-8').strip()
-                        cleaned_data = re.sub(r'[^a-zA-Z0-9/.\s]', '', string_data)
+                        cleaned_data = re.sub(
+                            r'[^a-zA-Z0-9/.\s]', '', string_data
+                        )
                         if cleaned_data and len(cleaned_data) >= 4:
                             unique_strings.add(cleaned_data)
                     except UnicodeDecodeError as e:
-                        self.logger.warning(f"Decoding error: {e} for entry: {entry}")
+                        self.logger.warning(
+                            f"Decoding error: {e} for entry: {entry}"
+                        )
                         continue
         unique_strings_list = list(unique_strings)
         if unique_strings_list:
