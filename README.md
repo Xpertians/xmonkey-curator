@@ -1,92 +1,91 @@
-![Logo](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/monkey_curator_github.png?raw=true)
+ ---
+  🚨 DEPRECATION NOTICE: xmonkey-curator
 
-# XMonkey Curator - Automated DESCAM tooling
+  Project Status: ARCHIVED
 
-## Summary
+  Effective Date: August 2025
+  
+  Reason: Superseded by Semantic Copycat BinarySniffer
 
-XMonkey Curator is a tool that performs DESCAM (Decompose, Enumerate, Scanning, Catalog, Analysis, Merge) review to software for Open Source License Compliance.
+  Migration Path
 
-The tool can extract (DECOMPOSE) archive files like Jar, ZIP, Tarballs, RPM, Debian, etc., to recursively obtain the list of assets (Enumerate) contained.
+  xmonkey-curator functionality has been fully integrated and significantly enhanced in https://github.com/oscarvalenzuelab/semantic-copycat-binarysniffer.
 
-XMonkey Curator also performs a basic review (Scanning) of the assets to extract information as "features" for OSLC assessments.
-Scan types supported:
-- [Alpha Version](https://github.com/Xpertians/xmonkey-curator/milestone/1):
-  - Literal Strings
-  - Symbols Matching using predefined [signatures](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/signatures).
-  - License detection (using [OSLiLi](https://github.com/Xpertians/oslili))
-  - Regex Patterns ([examples](https://github.com/Xpertians/xmonkey-curator/tree/main/src/xmonkey_curator/licenses)).
-- [Beta Version](https://github.com/Xpertians/xmonkey-curator/milestone/2):
-  - FuzzyHashing (using LSH or SSDeep)
-  - Generate OSS Notices
-  - Improve external rules for automatic classification
+  Feature Migration Mapping
 
-The results of the review can be automatically processed (Catalog) using predefined [rules](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/rules/) and workflows (Analysis).
+  | xmonkey-curator Feature            | BinarySniffer Equivalent                 |
+  |------------------------------------|------------------------------------------|
+  | xmonkey-curator scan PATH          | binarysniffer analyze PATH               |
+  | --unpack archive extraction        | ✅ Built-in (APK/IPA/JAR/ZIP/TAR)         |
+  | --match-symbols signature matching | ✅ Core feature (90+ components)          |
+  | --licenses license detection       | ✅ Built-in with comprehensive database   |
+  | --output JSON export               | ✅ --format json --output file.json       |
+  | --export-symbols symbol extraction | ✅ Enhanced symbol and pattern extraction |
 
-The software currently supports the format listed below:
-* ELF
-* Mach-OS
-* Objective-C
-* Python
-* PHP
-* Java
-* Ruby
-* Rust
-* Perl
-* C++
+  Why Migrate?
 
-A full list can be found [here](https://github.com/Xpertians/xmonkey-curator/blob/main/src/xmonkey_curator/handler_registry.py#L10).
+  🚀 Superior Performance
 
+  - Multi-tier matching: Bloom filters → MinHash LSH → Database
+  - Memory efficient: <100MB usage vs curator's higher overhead
+  - Faster analysis: ~10-50ms per file after index loading
 
-## Usage
+  🎯 Enhanced Detection
 
-```
-$ pip install xmonkey-curator
-$ xmonkey-curator scan --help
-Usage: xmonkey-curator scan [OPTIONS] PATH
+  - 42x improvement in component detection
+  - Enhanced mode: --enhanced flag for comprehensive analysis
+  - Confidence scoring: Detailed confidence percentages for matches
 
-  Scan target files using selected options
+  📱 Mobile Specialization
 
-Options:
-  -t, --force-text      Force using StringExtract for all files.
-  -u, --unpack          Unpack archives files.
-  -s, --export-symbols  Include words in the final report.
-  -m, --match-symbols   Match symbols against signatures.
-  -r, --rule TEXT       Add optional rules to execute.
-  -n, --notes TEXT      Add optional notes to the report.
-  -o, --output TEXT     Export results to filename with specific name.
-  -l, --licenses        Identify SPDX licenses.
-  -p, --print-report    Print the report to screen.
-  --help                Show this message and exit.
+  - APK analysis: AndroidManifest.xml, DEX files, native libraries
+  - IPA analysis: Info.plist, frameworks, executables
+  - Archive support: Nested archives, metadata extraction
 
-```
+  🗄️ Production Database
 
-### Scanning to identify files
+  - 90+ OSS components (vs curator's alpha signatures)
+  - Real-world signatures: Facebook SDK, Jackson, FFmpeg, etc.
+  - Automatic updates: Package-distributed signatures
 
-In order to perform a full scan, you must select the option "unpack" that will export the content of any archive file.
+  🛠️ Developer Experience
 
-```
-$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -o ffmpeg-source.json
-```
+  - Stable API: Production-ready v1.3.0
+  - Multiple outputs: Table, JSON, CSV formats
+  - Python library: Programmatic usage support
+  - Comprehensive docs: User guide, API reference
 
-### Scanning to export symbols and match with signatures
+  Quick Migration Examples
 
-Using the option "match", will attempt to identify packages by matching symbols with signatures.
+  # xmonkey-curator (deprecated)
+  xmonkey-curator scan app.apk --unpack --match-symbols --licenses --output results.json
 
-```
-$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -m -p
-```
+  # BinarySniffer (recommended)
+  binarysniffer analyze app.apk --enhanced --format json --output results.json
 
-![SignatureResults](https://github.com/Xpertians/xmonkey-curator/blob/main/logos/symbols_matching_results.png?raw=true)
+  Support Timeline
 
-### Generating signatures
+  - Immediate: xmonkey-curator archived, no new features
+  - 30 days: Migration support and documentation
+  - 90 days: Repository marked read-only
 
-You can create signatures by performing scans to source code and binary of a package, looking for signifcative symbols.
+  Get Started
 
-Then you can use the included script to check what symbols from the source code has survived the compilation.
+  # Install BinarySniffer
+  pip install semantic-copycat-binarysniffer
 
-```
-$ xmonkey-curator scan ffmpeg-6.0.tar.xz -u -s -o ffmpeg-source.json
-$ xmonkey-curator scan ffmpeg-4.4.1-linux-64.zip -u -s -o ffmpeg-binary.json
-$ ./scripts/signature_generator.py ffmpeg-source.json ffmpeg-binary.json
+  # Verify installation
+  binarysniffer --version
 
-```
+  # Analyze your first file
+  binarysniffer analyze /path/to/binary --enhanced
+
+  Resources
+
+  - 📖 Documentation: https://github.com/oscarvalenzuelab/semantic-copycat-binarysniffer/blob/main/docs/USER_GUIDE.md
+  - 🐛 Issues: https://github.com/oscarvalenzuelab/semantic-copycat-binarysniffer/issues
+  - 💬 Migration Help: Open an issue with migration label
+
+  ---
+  Thank you for using xmonkey-curator. We're excited to provide you with a more powerful and efficient solution in BinarySniffer! 🎉
+
